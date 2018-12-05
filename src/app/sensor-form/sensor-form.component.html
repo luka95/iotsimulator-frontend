@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
   <h1>Sensor Form</h1>
-  <form class="form-control">
+  <form>
     <div>
       <input type="checkbox" [id]="lora" [value]="lora" name="lora" [(ngModel)]="loraWanSelected"/>
       <label [for]="type">LoRaWAN</label><br>
@@ -9,7 +9,7 @@
       <label [for]="type">XBee</label><br>
 
       <label for="batteryPercentage">Current Battery percentage</label>
-      <input type="number" class="form-control" id="batteryPercentage" value="100" max="100" min="0" [(ngModel)]="battery"><br>
+      <input type="number" class="form-control" id="batteryPercentage" value="100" max="100" min="0" name="battery" [(ngModel)]="battery"><br>
     </div>
   </form>
 </div>
