@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Sensor Form</h1>
+  <form class="form-control">
+    <div>
+      <input type="checkbox" [id]="lora" [value]="lora" name="lora" [(ngModel)]="loraWanSelected"/>
+      <label [for]="type">LoRaWAN</label><br>
+
+      <input type="checkbox" [id]="xbee" [value]="xbee" name="lora" [(ngModel)]="xbeeSelected"/>
+      <label [for]="type">XBee</label><br>
+
+      <label for="batteryPercentage">Current Battery percentage</label>
+      <input type="number" class="form-control" id="batteryPercentage" value="100" max="100" min="0" [(ngModel)]="battery"><br>
+    </div>
+  </form>
+</div>
