@@ -16,7 +16,7 @@ import { MarkerComponent } from './marker/marker.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [SensorFormComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
