@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SensorFormComponent } from "../sensor-form/sensor-form.component";
-import {el} from "@angular/platform-browser/testing/src/browser_util";
+import { SensorFormComponent } from '../sensor-form/sensor-form.component';
 
 @Component({
   selector: 'app-marker',
@@ -31,7 +30,7 @@ export class MarkerComponent implements OnInit {
     } else if (lora === true || xbee === true) {
       colorToReturn = lora === true ? this.loraColor : this.xbeeColor;
     }
-    //console.log('####COLOR: ' + colorToReturn);
+    // console.log('####COLOR: ' + colorToReturn);
     return colorToReturn;
   }
 }

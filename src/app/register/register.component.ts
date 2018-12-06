@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { User } from "../_models/user";
+import { User } from '../_models';
 
-import { UserService } from '../_services/user.service';
+import { UserService } from '../_services';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        var user = new User();
+        let user = new User();
         user.username = this.registerForm.value.username;
         user.password = this.registerForm.value.password;
         this.userService.register(user)

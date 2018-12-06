@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { User } from "../_models/user";
+import { User } from '../_models/user';
 import { map } from 'rxjs/operators';
-import { AppComponent } from "../app.component";
+import { AppComponent } from '../app.component';
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -16,8 +16,8 @@ export class AuthenticationService {
   }
 
   get user() {
-    var user = new User();
-    var storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    let user = new User();
+    let storedUser = JSON.parse(localStorage.getItem('currentUser'));
     user.username = storedUser.data.username;
     user.id = storedUser.data.id;
     return user;
@@ -27,7 +27,7 @@ export class AuthenticationService {
 
   login(user: User) {
 
-    return this.http.post<any>(AppComponent.API_URL + "/auth/login", user)
+    return this.http.post<any>(AppComponent.API_URL + '/auth/login', user)
       .pipe(map(user => {
 
         if (user && user.token) {

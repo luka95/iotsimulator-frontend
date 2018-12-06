@@ -8,6 +8,6 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: '**', component: HomeComponent }
 
-]
+];
 
 export const routing = RouterModule.forRoot(appRoutes);

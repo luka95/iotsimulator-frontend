@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { AuthenticationService } from '../_services/authentication.service'
+import { AuthenticationService } from '../_services/authentication.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Router } from '@angular/router';

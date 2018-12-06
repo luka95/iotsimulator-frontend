@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { User } from "../_models/user";
+import { User } from '../_models/user';
 
 import { AuthenticationService } from '../_services';
 
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService) { }
-Ł
+
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        var user = new User();
+        let user = new User();
         user.username = this.f.username.value;
         user.password = this.f.password.value;
         this.authenticationService.login(user)
