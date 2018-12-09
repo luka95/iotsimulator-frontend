@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 
 import { latLng, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
+import {SensorFormComponent} from '../sensor-form/sensor-form.component';
 
 @Component({
   selector: 'app-layers',
@@ -46,10 +47,9 @@ export class LayersComponent {
     draw: {
       marker: {
         icon: L.icon({
-          iconSize: [ 25, 41 ],
-          iconAnchor: [ 13, 41 ],
-          iconUrl: 'assets/marker-icon.png',
-          shadowUrl: 'assets/marker-shadow.png'
+          iconSize: [ 20, 24 ],
+          iconAnchor: [ 10, 24 ],
+          iconUrl: 'assets/marker-icon-2x.png'
         })
       },
       polyline: true,
