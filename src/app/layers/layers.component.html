@@ -1,0 +1,12 @@
+<div>
+  <div leaflet style="height: 500px;"
+      leafletDraw
+      [leafletDrawOptions]="drawOptions"
+      [leafletOptions]="options"
+      [leafletBaseLayers]="baseLayers"
+      [leafletLayersControlOptions]="layersControlOptions"
+    (leafletDrawCreated)="onDrawCreated($event)"
+    (leafletDrawStart)="onDrawStart($event)">
+  </div>
+  <app-sensor-form></app-sensor-form>
+</div>

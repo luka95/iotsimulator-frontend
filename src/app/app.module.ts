@@ -3,27 +3,29 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
-import { HomeComponent } from './home';
 import { AuthenticationService, UserService } from './_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderComponent } from './header';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
 import { AppComponent } from './app.component';
 import { SensorFormComponent } from './sensor-form/sensor-form.component';
-import { MarkerComponent } from './marker/marker.component';
 import { routing } from './app.routing';
+import { LayersComponent } from './layers/layers.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SensorFormComponent,
-    MarkerComponent,
+    LayersComponent,
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
-    HomeComponent
   ],
   imports: [
+    LeafletModule.forRoot(),
+    LeafletDrawModule.forRoot(),
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -32,10 +34,13 @@ import { routing } from './app.routing';
   ],
   providers: [
     SensorFormComponent,
-    HomeComponent,
+    LayersComponent,
     AuthenticationService,
     UserService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+    LayersComponent
+  ]
 })
 export class AppModule { }

@@ -22,5 +22,4 @@ export class SensorFormComponent {
   getBatteryStatus() {
     return this.battery;
   }
-
 }
