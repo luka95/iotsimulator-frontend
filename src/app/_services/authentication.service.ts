@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../_models/user';
 import { map } from 'rxjs/operators';
 import { AppComponent } from '../app.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable()
@@ -13,6 +13,16 @@ export class AuthenticationService {
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
+  }
+
+  logInUser(user) {
+    if (user && user.token) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.loggedIn.next(true);
+      console.log(user);
+      return true;
+    }
+    return false;
   }
 
   get user() {
@@ -25,18 +35,8 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  login(user: User) {
-
-    return this.http.post<any>(AppComponent.API_URL + '/auth/login', user)
-      .pipe(map(user => {
-
-        if (user && user.token) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.loggedIn.next(true);
-          console.log(user);
-        }
-        return user;
-      }));
+  login(user: User): Observable<string> {
+    return this.http.post<string>(AppComponent.API_URL + '/auth/login', user);
   }
 
   getTokenHeader() {
@@ -44,7 +44,6 @@ export class AuthenticationService {
     let header = { Authorization: `Bearer ${currentUser.token}` };
     return header;
   }
-
 
   logout() {
     this.loggedIn.next(false);

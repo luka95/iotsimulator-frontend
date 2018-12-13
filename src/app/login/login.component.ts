@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { User } from '../_models/user';
+import { map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { AuthenticationService } from '../_services';
 
@@ -12,6 +14,7 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     returnUrl: string;
+    error: string;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -48,12 +51,17 @@ export class LoginComponent implements OnInit {
         user.username = this.f.username.value;
         user.password = this.f.password.value;
         this.authenticationService.login(user)
-            .pipe(first())
+            .pipe()
             .subscribe(
-                data => {
-                    this.router.navigate([this.returnUrl]);
+                user => {
+                    if (this.authenticationService.logInUser(user)) {
+                        this.loading = false;
+                        this.router.navigate([this.returnUrl]);
+                    }
                 },
-                error => {
+                (err: HttpErrorResponse) => {
+                    this.error = "Invalid credentials";
+                    console.log(err);
                     this.loading = false;
                 });
     }

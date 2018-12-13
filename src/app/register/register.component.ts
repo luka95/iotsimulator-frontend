@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
+    error: string;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -40,13 +41,15 @@ export class RegisterComponent implements OnInit {
         user.username = this.registerForm.value.username;
         user.password = this.registerForm.value.password;
         this.userService.register(user)
-            .pipe(first())
             .subscribe(
                 data => {
+                    this.loading = false;
                     this.router.navigate(['/login']);
                 },
                 error => {
                     this.loading = false;
+                    this.error = error;
+                    console.log(error);
                 });
     }
 }

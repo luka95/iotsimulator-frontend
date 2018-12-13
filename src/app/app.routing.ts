@@ -2,11 +2,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { LayersComponent } from './layers/layers.component';
+import { AuthGuard } from './_guards';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: '**', component: LayersComponent }
+    { path: 'dashboard', component: LayersComponent, canActivate: [AuthGuard], },
+    { path: '**', redirectTo: 'dashboard' },
 
 ];
 

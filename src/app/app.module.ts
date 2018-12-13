@@ -13,6 +13,8 @@ import { AppComponent } from './app.component';
 import { SensorFormComponent } from './sensor-form/sensor-form.component';
 import { routing } from './app.routing';
 import { LayersComponent } from './layers/layers.component';
+import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { AuthGuard } from './_guards';
 
 @NgModule({
   declarations: [
@@ -33,14 +35,16 @@ import { LayersComponent } from './layers/layers.component';
     HttpClientModule
   ],
   providers: [
+    AuthGuard,
     SensorFormComponent,
     LayersComponent,
     AuthenticationService,
-    UserService
+    UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [
-    AppComponent,
-    LayersComponent
+    AppComponent
   ]
 })
 export class AppModule { }

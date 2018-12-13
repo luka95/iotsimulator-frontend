@@ -1,6 +1,8 @@
-<div class="container-fluid panel">
-
-    <div class="row">
+<div>
+    <div *ngIf="error" class="alert alert-danger">
+        <strong>Error!</strong> {{error}}
+    </div>
+    <div class="row login-form">
         <div class="col-sm-6 offset-sm-3">
             <h2>Login</h2>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

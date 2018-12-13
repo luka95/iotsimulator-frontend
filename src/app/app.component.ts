@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  static API_URL = 'http://localhost:8080';
-
+  static API_URL = 'http://localhost:8080/api';
+  static environment = "dev";
   constructor() {
   }
 
