@@ -15,6 +15,8 @@ import { routing } from './app.routing';
 import { LayersComponent } from './layers/layers.component';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AuthGuard } from './_guards';
+import { MarkerIconComponent } from './marker-icon/marker-icon.component';
+import { ObstacleFormComponent } from './obstacle-from/obstacle-form.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { AuthGuard } from './_guards';
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
+    MarkerIconComponent,
+    ObstacleFormComponent
   ],
   imports: [
     LeafletModule.forRoot(),
@@ -37,6 +41,7 @@ import { AuthGuard } from './_guards';
   providers: [
     AuthGuard,
     SensorFormComponent,
+    ObstacleFormComponent,
     LayersComponent,
     AuthenticationService,
     UserService,

@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-sensor-form',
-  templateUrl: './sensor-form.component.html',
-  styleUrls: ['./sensor-form.component.css']
+  templateUrl: './sensor-form.component.html'
 })
 export class SensorFormComponent {
 

@@ -3,6 +3,7 @@ import {Component, ViewChild} from '@angular/core';
 import { latLng, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
 import {SensorFormComponent} from '../sensor-form/sensor-form.component';
+import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
 
 @Component({
   selector: 'app-layers',
@@ -11,6 +12,7 @@ import {SensorFormComponent} from '../sensor-form/sensor-form.component';
 export class LayersComponent {
 
   @ViewChild(SensorFormComponent) sensorFormComponent;
+  @ViewChild(ObstacleFormComponent) obstacleFormComponent;
 
   LAYER_OTM = {
     id: 'opentopomap',
@@ -72,7 +74,8 @@ export class LayersComponent {
         })
       },
       polyline: true,
-      circle: true
+      circle: true,
+      circlemarker: false
     }
   };
 
@@ -81,23 +84,36 @@ export class LayersComponent {
   }
 
   onDrawCreated(event) {
+    const type = event.layerType;
     event.layer = event.layer.toGeoJSON();
 
-    const availableModules = [];
+    if (type === 'marker') {
+      const availableModules = [];
 
-    if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
-      availableModules.push(0);
+      if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
+        availableModules.push(0);
+      }
+
+      if (this.sensorFormComponent.getXbeeSelectedStatus()) {
+        availableModules.push(1);
+      }
+
+      event.layer.properties = {
+        id: this.numberOfLayers++,
+        availableModules: availableModules,
+        modulesOn: [],
+        batteryPercentage: this.sensorFormComponent.getBatteryStatus()
+      };
+    } else {
+      event.layer.properties = {
+        communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage()
+      };
     }
 
-    if (this.sensorFormComponent.getXbeeSelectedStatus()) {
-      availableModules.push(1);
+    if (type === 'circle') {
+      event.layer.geometry.type = 'Circle';
     }
 
-    event.layer.properties = {
-      id: this.numberOfLayers++,
-      availableModules: availableModules,
-      modulesOn: [],
-      batteryPercentage: this.sensorFormComponent.getBatteryStatus()
-    };
+    console.log(event.layer);
   }
 }
