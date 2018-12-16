@@ -10,7 +10,7 @@ import {SensorFormComponent} from '../sensor-form/sensor-form.component';
 })
 export class LayersComponent {
 
-  // @ViewChild(SensorFormComponent) sensorFormComponent;
+  @ViewChild(SensorFormComponent) sensorFormComponent;
 
   LAYER_OTM = {
     id: 'opentopomap',
@@ -59,6 +59,8 @@ export class LayersComponent {
 
   myIconUrl = encodeURI('data:image/svg+xml,' + this.mySvgString).replace('#', '%23');
 
+  numberOfLayers = 0;
+
   drawOptions = {
     position: 'topright',
     draw: {
@@ -79,6 +81,23 @@ export class LayersComponent {
   }
 
   onDrawCreated(event) {
-    console.log(event);
+    event.layer = event.layer.toGeoJSON();
+
+    const availableModules = [];
+
+    if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
+      availableModules.push(0);
+    }
+
+    if (this.sensorFormComponent.getXbeeSelectedStatus()) {
+      availableModules.push(1);
+    }
+
+    event.layer.properties = {
+      id: this.numberOfLayers++,
+      availableModules: availableModules,
+      modulesOn: [],
+      batteryPercentage: this.sensorFormComponent.getBatteryStatus()
+    };
   }
 }
