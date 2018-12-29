@@ -17,6 +17,7 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AuthGuard } from './_guards';
 import { MarkerIconComponent } from './marker-icon/marker-icon.component';
 import { ObstacleFormComponent } from './obstacle-from/obstacle-form.component';
+import { SimulationFormComponent } from './simulation-form/simulation-form.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ObstacleFormComponent } from './obstacle-from/obstacle-form.component';
     RegisterComponent,
     HeaderComponent,
     MarkerIconComponent,
-    ObstacleFormComponent
+    ObstacleFormComponent,
+    SimulationFormComponent
   ],
   imports: [
     LeafletModule.forRoot(),
@@ -42,6 +44,7 @@ import { ObstacleFormComponent } from './obstacle-from/obstacle-form.component';
     AuthGuard,
     SensorFormComponent,
     ObstacleFormComponent,
+    SimulationFormComponent,
     LayersComponent,
     AuthenticationService,
     UserService,
