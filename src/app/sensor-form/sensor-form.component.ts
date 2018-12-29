@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
 })
 export class SensorFormComponent {
 
-  loraWanSelected = false;
-  xbeeSelected = false;
+  loraWanSelected = true;
+  xbeeSelected = true;
   battery = 100;
 
   getLoraWanSelectedStatus() {

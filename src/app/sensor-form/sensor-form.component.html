@@ -1,15 +1,20 @@
 <div class="container-fluid">
-  <h1>Sensor Form</h1>
+  <h5>Sensor Properties</h5>
   <form>
     <div>
-      <input type="checkbox" name="lora" [(ngModel)]="loraWanSelected" [checked]="true"/>
+      <input type="checkbox" name="lora" [(ngModel)]="loraWanSelected"/>
       <label [for]="lora">LoRaWAN</label><br>
 
-      <input type="checkbox" name="xbee" [(ngModel)]="xbeeSelected" [checked]="true"/>
+      <input type="checkbox" name="xbee" [(ngModel)]="xbeeSelected"/>
       <label [for]="xbee">XBee</label><br>
 
-      <label for="batteryPercentage">Current Battery percentage</label>
-      <input type="number" class="form-control" id="batteryPercentage" value="100" max="100" min="0" name="battery" [(ngModel)]="battery"><br>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="battery-prepend">current battery percentage</span>
+        </div>
+        <input type="number" class="form-control" aria-label="battery" aria-describedby="battery-prepend"
+               value="100" max="100" min="0" name="battery" id="battery" [(ngModel)]="battery">
+      </div>
     </div>
   </form>
 </div>

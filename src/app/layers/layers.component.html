@@ -1,5 +1,6 @@
 <div style="margin-left:5%;margin-right:5%;margin-top:2%;">
   <app-simulation-form></app-simulation-form>
+  <app-modules-form></app-modules-form>
   <div leaflet style="height: 500px;"
       leafletDraw
       [leafletDrawOptions]="drawOptions"
@@ -8,6 +9,12 @@
       [leafletLayersControlOptions]="layersControlOptions"
     (leafletDrawCreated)="onDrawCreated($event)">
   </div>
-  <app-sensor-form></app-sensor-form>
-  <app-obstacle-form></app-obstacle-form>
+  <div class="row">
+    <div class="col">
+      <app-sensor-form></app-sensor-form>
+    </div>
+    <div class="col">
+      <app-obstacle-form></app-obstacle-form>
+    </div>
+  </div>
 </div>

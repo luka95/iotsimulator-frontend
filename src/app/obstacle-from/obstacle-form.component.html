@@ -1,10 +1,14 @@
 <div class="container-fluid">
-  <h1>Obstacle Form</h1>
+  <h5>Obstacle Properties</h5>
   <form>
     <div>
-      <label for="efficiency">Communication efficiency in area</label>
-      <input type="number" class="form-control" id="efficiency" value="100" max="100" min="0" name="efficiency"
-             [(ngModel)]="communicationEfficiencyPercentage"><br>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="efficiency-prepend">communication efficiency in area</span>
+        </div>
+        <input type="number" class="form-control" aria-label="efficiency" aria-describedby="efficiency-prepend"
+               value="100" max="100" min="0" name="efficiency" id="efficiency" [(ngModel)]="communicationEfficiencyPercentage">
+      </div>
     </div>
   </form>
 </div>
