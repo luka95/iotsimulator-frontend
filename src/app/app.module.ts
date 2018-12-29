@@ -18,6 +18,7 @@ import { AuthGuard } from './_guards';
 import { MarkerIconComponent } from './marker-icon/marker-icon.component';
 import { ObstacleFormComponent } from './obstacle-from/obstacle-form.component';
 import { SimulationFormComponent } from './simulation-form/simulation-form.component';
+import { ModulesFormComponent } from './modules-form/modules-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SimulationFormComponent } from './simulation-form/simulation-form.compo
     HeaderComponent,
     MarkerIconComponent,
     ObstacleFormComponent,
-    SimulationFormComponent
+    SimulationFormComponent,
+    ModulesFormComponent
   ],
   imports: [
     LeafletModule.forRoot(),
@@ -45,6 +47,7 @@ import { SimulationFormComponent } from './simulation-form/simulation-form.compo
     SensorFormComponent,
     ObstacleFormComponent,
     SimulationFormComponent,
+    ModulesFormComponent,
     LayersComponent,
     AuthenticationService,
     UserService,
