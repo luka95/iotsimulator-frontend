@@ -6,31 +6,31 @@
 
       <h4 *ngIf="configurationOpened">Communication modules:</h4>
       <div *ngIf="configurationOpened" class="row">
-        <div *ngFor="let module of modules" class="col">
+        <div *ngFor="let module of modules; let i = index" class="col">
           <h5>{{module.name}}</h5>
 
           <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="energy-on-prepend-$module.id">energy on</span>
+              <span class="input-group-text" id="energy-on-prepend-{{i}}">energy on</span>
             </div>
-            <input type="number" class="form-control" aria-label="energyOn-$module.id" aria-describedby="energy-on-prepend-$module.id"
-                   value="{{module.energyOn}}" name="energyOn" id="energyOn-$module.id" [(ngModel)]="module.energyOn">
+            <input type="number" class="form-control" attr.aria-label="energyOn-{{i}}" attr.aria-describedby="energy-on-prepend-{{i}}"
+                   value="{{module.energyOn}}" name="energyOn-{{i}}" id="energyOn-{{i}}" [(ngModel)]="module.energyOn">
           </div>
 
           <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="energy-idle-prepend-$module.id">energy idle</span>
+              <span class="input-group-text" id="energy-idle-prepend-{{i}}">energy idle</span>
             </div>
-            <input type="number" class="form-control" aria-label="energyIdle-$module.id" aria-describedby="energy-idle-prepend-$module.id"
-                   value="{{module.energyIdle}}" name="energyIdle-$module.id" id="energyIdle" [(ngModel)]="module.energyIdle">
+            <input type="number" class="form-control" attr.aria-label="energyIdle-{{i}}" attr.aria-describedby="energy-idle-prepend-{{i}}"
+                   value="{{module.energyIdle}}" name="energyIdle-{{i}}" id="energyIdle-{{i}}" [(ngModel)]="module.energyIdle">
           </div>
 
           <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="range-prepend-$module.id">range</span>
+              <span class="input-group-text" id="range-prepend-{{i}}">range</span>
             </div>
-            <input type="number" class="form-control" aria-label="range-$module.id" aria-describedby="range-prepend-$module.id"
-                   value="{{module.range}}" name="range" id="range-$module.id" [(ngModel)]="module.range">
+            <input type="number" class="form-control" attr.aria-label="range-{{i}}" attr.aria-describedby="range-prepend-{{i}}"
+                   value="{{module.range}}" name="range-{{i}}" id="range-{{i}}" [(ngModel)]="module.range">
           </div>
 
         </div>

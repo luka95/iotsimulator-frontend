@@ -16,23 +16,10 @@ export class ModulesFormComponent {
 
   private configurationOpened = false;
 
-  private lorawanModule: CommunicationModule = {
-    id: 0,
-    name: 'Lorawan',
-    energyOn: 5,
-    energyIdle: 0.005,
-    range: 5
-  };
-
-  private xbeeModule: CommunicationModule = {
-    id: 1,
-    name: 'Xbee',
-    energyOn: 3,
-    energyIdle: 0.001,
-    range: 2
-  };
-
-  private modules = [this.lorawanModule, this.xbeeModule];
+  private modules: CommunicationModule[] = [
+    { id: 0, name: 'Lorawan', energyOn: 5, energyIdle: 0.005, range: 5},
+    { id: 1, name: 'Xbee', energyOn: 3, energyIdle: 0.001, range: 2}
+  ];
 
   openConfiguration() {
     this.configurationOpened = true;
