@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import { User } from '../_models/user';
-import { map } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {User} from '../_models';
+import {HttpErrorResponse} from '@angular/common/http';
 
-import { AuthenticationService } from '../_services';
+import {AuthenticationService} from '../_services';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
@@ -20,7 +18,8 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService) { }
+        private authenticationService: AuthenticationService) {
+    }
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -36,7 +35,9 @@ export class LoginComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
+    get f() {
+        return this.loginForm.controls;
+    }
 
     onSubmit() {
         this.submitted = true;
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
                     }
                 },
                 (err: HttpErrorResponse) => {
-                    this.error = "Invalid credentials";
+                    this.error = 'Invalid credentials';
                     console.log(err);
                     this.loading = false;
                 });

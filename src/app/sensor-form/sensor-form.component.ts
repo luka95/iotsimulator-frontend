@@ -1,24 +1,30 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-sensor-form',
-  templateUrl: './sensor-form.component.html'
+    selector: 'app-sensor-form',
+    templateUrl: './sensor-form.component.html'
 })
 export class SensorFormComponent {
 
-  loraWanSelected = true;
-  xbeeSelected = true;
-  battery = 100;
+    loraWanSelected = true;
+    xbeeSelected = true;
+    battery = 100;
+    period = 3600;
 
-  getLoraWanSelectedStatus() {
-    return this.loraWanSelected;
-  }
+    getLoraWanSelectedStatus() {
+        return this.loraWanSelected;
+    }
 
-  getXbeeSelectedStatus() {
-    return this.xbeeSelected;
-  }
+    getXbeeSelectedStatus() {
+        return this.xbeeSelected;
+    }
 
-  getBatteryStatus() {
-    return this.battery;
-  }
+    getBatteryStatus() {
+        return this.battery;
+    }
+
+
+    getPeriod() {
+        return this.period;
+    }
 }

@@ -1,137 +1,170 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
-import { latLng, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
+import {FeatureGroup, latLng, tileLayer} from 'leaflet';
 import {SensorFormComponent} from '../sensor-form/sensor-form.component';
 import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
+import {LayersDataService} from '../_services';
+import {Feature, FeatureCollection} from 'geojson';
 
 @Component({
-  selector: 'app-layers',
-  templateUrl: './layers.component.html'
+    selector: 'app-layers',
+    templateUrl: './layers.component.html'
 })
-export class LayersComponent {
+export class LayersComponent implements OnInit {
 
-  @ViewChild(SensorFormComponent) sensorFormComponent;
-  @ViewChild(ObstacleFormComponent) obstacleFormComponent;
+    @ViewChild(SensorFormComponent) sensorFormComponent;
+    @ViewChild(ObstacleFormComponent) obstacleFormComponent;
 
-  LAYER_OTM = {
-    id: 'opentopomap',
-    name: 'Open Topo Map',
-    enabled: true,
-    layer: tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-      maxZoom: 17,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    })
-  };
+    constructor(private layersDataService: LayersDataService) {
+    }
 
-  LAYER_OSM = {
-    id: 'openstreetmap',
-    name: 'Open Street Map',
-    enabled: false,
-    layer: tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    })
-  };
-
-  // Values to bind to Leaflet Directive
-  layersControlOptions = {position: 'bottomright'};
-  options = {
-    zoom: 16,
-    center: latLng(45.801128, 15.9706648)
-  };
-  baseLayers = {
-    'Open Street Map': this.LAYER_OSM.layer,
-    'Open Topo Map': this.LAYER_OTM.layer
-  };
-
-  numberOfLayers = 0;
-
-  drawOptions = {
-    position: 'topright',
-    draw: {
-      marker: {
-        icon: L.icon({
-          iconSize: [ 20, 24 ],
-          iconAnchor: [ 10, 24 ],
-          iconUrl: this.getMarkerIcon()
+    LAYER_OTM = {
+        id: 'opentopomap',
+        name: 'Open Topo Map',
+        enabled: true,
+        layer: tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         })
-      },
-      polyline: true,
-      circle: true,
-      circlemarker: false
+    };
+
+    LAYER_OSM = {
+        id: 'openstreetmap',
+        name: 'Open Street Map',
+        enabled: false,
+        layer: tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        })
+    };
+
+    // Values to bind to Leaflet Directive
+    layersControlOptions = {position: 'bottomright'};
+    options = {
+        zoom: 16,
+        center: latLng(45.801128, 15.9706648)
+    };
+    baseLayers = {
+        'Open Street Map': this.LAYER_OSM.layer,
+        'Open Topo Map': this.LAYER_OTM.layer
+    };
+
+    numberOfLayers = 0;
+
+    points = new Map<number, Feature>();
+
+    drawOptions = {
+        position: 'topright',
+        draw: {
+            marker: {
+                icon: L.icon({
+                    iconSize: [20, 24],
+                    iconAnchor: [10, 24],
+                    iconUrl: this.getMarkerIcon()
+                })
+            },
+            polyline: true,
+            circle: true,
+            circlemarker: false
+        }
+    };
+
+    ngOnInit(): void {
+        // this.layersDataService.currentPoints.subscribe(() => {
+        //     this.layersDataService.changePoints(this.getPoints());
+        // });
+        // this.layersDataService.currentObstacles.subscribe(() => {
+        //     this.layersDataService.changeObstacles(this.getObstacles());
+        // });
     }
-  };
 
-  onDrawCreated(event) {
-    const type = event.layerType;
+    // getPoints(): FeatureCollection {
+    //     return this.points;
+    // }
+    //
+    // getObstacles(): FeatureCollection {
+    //     return this.obstacles;
+    // }
 
-    if (type === 'marker') {
-      event.layer.setIcon(L.icon({
-        iconSize: [ 20, 24 ],
-        iconAnchor: [ 10, 24 ],
-        iconUrl: this.getMarkerIcon()
-      }));
+    onDrawCreated(event) {
+        const type = event.layerType;
 
-      const availableModules = [];
+        if (type === 'marker') {
+            event.layer.setIcon(L.icon({
+                iconSize: [20, 24],
+                iconAnchor: [10, 24],
+                iconUrl: this.getMarkerIcon()
+            }));
+            event.layer = event.layer.toGeoJSON();
+            const availableModules = [];
 
-      if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
-        availableModules.push(0);
-      }
+            if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
+                availableModules.push(0);
+            }
 
-      if (this.sensorFormComponent.getXbeeSelectedStatus()) {
-        availableModules.push(1);
-      }
+            if (this.sensorFormComponent.getXbeeSelectedStatus()) {
+                availableModules.push(1);
+            }
 
-      event.layer = event.layer.toGeoJSON();
-      event.layer.properties = {
-        id: this.numberOfLayers++,
-        availableModules: availableModules,
-        modulesOn: [],
-        batteryPercentage: this.sensorFormComponent.getBatteryStatus()
-      };
-    } else {
-      event.layer.properties = {
-        communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage()
-      };
+            event.layer.properties = {
+                id: this.numberOfLayers++,
+                availableModules: availableModules,
+                modulesOn: [],
+                batteryPercentage: this.sensorFormComponent.getBatteryStatus()
+            };
+
+            this.points.set(event.layer.properties.id, event.layer);
+        } else {
+            event.layer = event.layer.toGeoJSON();
+            event.layer.properties = {
+                communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage()
+            };
+            // this.obstacles.features.push(event.layer);
+        }
+
+        if (type === 'circle') {
+            event.layer.geometry.type = 'Circle';
+        }
+        console.log(this.points);
+        // console.log(this.obstacles);
+
+
     }
 
-    if (type === 'circle') {
-      event.layer.geometry.type = 'Circle';
+
+
+    getMarkerFill(id: String) {
+        const loraColor = '#3F3665';
+        const xbeeColor = '#864545';
+
+        if (this.sensorFormComponent === undefined) {
+            return 'none';
+        }
+
+        const lora = this.sensorFormComponent.getLoraWanSelectedStatus();
+        const xbee = this.sensorFormComponent.getXbeeSelectedStatus();
+        let colorToReturn = '';
+
+        if (lora === true && xbee === true) {
+            if (id === 'Left') {
+                colorToReturn = loraColor;
+            } else if (id === 'Right') {
+                colorToReturn = xbeeColor;
+            }
+        } else if (lora === true || xbee === true) {
+            colorToReturn = lora === true ? loraColor : xbeeColor;
+        } else {
+            colorToReturn = 'none';
+        }
+        return colorToReturn;
     }
-  }
 
-  getMarkerFill(id: String) {
-    const loraColor = '#3F3665';
-    const xbeeColor = '#864545';
+    getMarkerIcon() {
+        const leftFill = this.getMarkerFill('Left');
+        const rightFill = this.getMarkerFill('Right');
 
-    if (this.sensorFormComponent === undefined) {
-      return 'none';
-    }
-
-    const lora = this.sensorFormComponent.getLoraWanSelectedStatus();
-    const xbee = this.sensorFormComponent.getXbeeSelectedStatus();
-    let colorToReturn = '';
-
-    if (lora === true && xbee === true) {
-      if (id === 'Left') {
-        colorToReturn = loraColor;
-      } else if (id === 'Right') {
-        colorToReturn = xbeeColor;
-      }
-    } else if (lora === true || xbee === true) {
-      colorToReturn = lora === true ? loraColor : xbeeColor;
-    } else {
-      colorToReturn = 'none';
-    }
-    return colorToReturn;
-  }
-
-  getMarkerIcon() {
-    const leftFill = this.getMarkerFill('Left');
-    const rightFill = this.getMarkerFill('Right');
-
-    const mySvgString = `<svg width="20px" height="24px" viewBox="0 0 20 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        const mySvgString = `<svg width="20px" height="24px" viewBox="0 0 20 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <metadata id="metadata1">image/svg+xml</metadata>
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                       <g id="map-pin" transform="translate(1.000000, 1.000000)" stroke="#000000">
@@ -144,6 +177,14 @@ export class LayersComponent {
                     </g>
                   </svg>`;
 
-    return encodeURI('data:image/svg+xml,' + mySvgString).replace('#', '%23');
-  }
+        return encodeURI('data:image/svg+xml,' + mySvgString).replace('#', '%23');
+    }
+
+    onDrawDeleted(event) {
+        console.log(event);
+    }
+
+    onDrawEdited(event) {
+        console.log(event);
+    }
 }

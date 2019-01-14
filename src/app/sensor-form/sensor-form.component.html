@@ -1,20 +1,31 @@
 <div class="container-fluid">
-  <h5>Sensor Properties</h5>
-  <form>
-    <div>
-      <input type="checkbox" name="lora" [(ngModel)]="loraWanSelected"/>
-      <label [for]="lora">LoRaWAN</label><br>
+    <h5>Sensor Properties</h5>
+    <form>
+        <div>
+            <input type="checkbox" name="lora" [(ngModel)]="loraWanSelected"/>
+            <label [for]="lora">LoRaWAN</label><br>
 
-      <input type="checkbox" name="xbee" [(ngModel)]="xbeeSelected"/>
-      <label [for]="xbee">XBee</label><br>
+            <input type="checkbox" name="xbee" [(ngModel)]="xbeeSelected"/>
+            <label [for]="xbee">XBee</label><br>
 
-      <div class="input-group input-group-sm mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="battery-prepend">current battery percentage</span>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="battery-prepend">Current battery percentage</span>
+                </div>
+                <input type="number" class="form-control" aria-label="battery" aria-describedby="battery-prepend"
+                       value="100" max="100" min="0" name="battery" id="battery" [(ngModel)]="battery">
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Sending period</span>
+                </div>
+                <input type="number" class="form-control" aria-label="period" aria-describedby="period-prepend"
+                       value="3600" min="0" name="period" id="period" [(ngModel)]="period">
+                <div class="input-group-append">
+                    <span class="input-group-text">seconds</span>
+                </div>
+            </div>
         </div>
-        <input type="number" class="form-control" aria-label="battery" aria-describedby="battery-prepend"
-               value="100" max="100" min="0" name="battery" id="battery" [(ngModel)]="battery">
-      </div>
-    </div>
-  </form>
+    </form>
 </div>

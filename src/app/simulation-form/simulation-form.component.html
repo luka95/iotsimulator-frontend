@@ -1,40 +1,48 @@
 <div class="container-fluid">
-  <h3>Simulation Parameters</h3>
-  <form>
-    <div>
-      <label for="algorithm">Algorithm:</label>
-      <select [(ngModel)]="selectedAlgorithm" name="algorithm" id="algorithm">
-        <option *ngFor="let algorithm of algorithms" [value]="algorithm.value">
-          {{algorithm.viewValue}}
-        </option>
-      </select><br>
+    <h3>Simulation Parameters</h3>
+    <form>
+        <div>
+            <label for="algorithm">Algorithm:</label>
+            <select [(ngModel)]="selectedAlgorithm" name="algorithm" id="algorithm">
+                <option *ngFor="let algorithm of algorithms" [value]="algorithm.value">
+                    {{algorithm.viewValue}}
+                </option>
+            </select><br>
 
-      <div *ngIf="selectedAlgorithm == 'GeneticAlgorithmModel'">
-        <div class="input-group input-group-sm mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="population-prepend">population</span>
-          </div>
-          <input type="number" class="form-control" aria-label="population" aria-describedby="population-prepend"
-                 value="20" max="100" min="20" name="population" id="population" [(ngModel)]="population">
-        </div>
+            <div *ngIf="selectedAlgorithm == 'GeneticAlgorithmModel'">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="population-prepend">Population size</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="population"
+                           aria-describedby="population-prepend"
+                           value="20" max="100" min="20" name="population" id="population" [(ngModel)]="population">
+                </div>
 
-        <div class="input-group input-group-sm mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="iterationsLimit-prepend">iterations limit</span>
-          </div>
-          <input type="number" class="form-control" aria-label="population" aria-describedby="iterationsLimit-prepend"
-                 value="100" max="10000" min="0" name="iterationsLimit" id="iterationsLimit" [(ngModel)]="iterationsLimit">
-        </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="iterationsLimit-prepend">Iterations limit</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="population"
+                           aria-describedby="iterationsLimit-prepend"
+                           value="100" max="10000" min="0" name="iterationsLimit" id="iterationsLimit"
+                           [(ngModel)]="iterationsLimit">
+                </div>
 
-        <div class="input-group input-group-sm mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="steadyGenerationsLimit-prepend">steady generations limit</span>
-          </div>
-          <input type="number" class="form-control" aria-label="steadyGenerationsLimit" aria-describedby="steadyGenerationsLimit-prepend"
-                 value="20" max="10000" min="0" name="steadyGenerationsLimit" id="steadyGenerationsLimit" [(ngModel)]="steadyGenerationsLimit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"
+                              id="steadyGenerationsLimit-prepend">Steady generations limit</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="steadyGenerationsLimit"
+                           aria-describedby="steadyGenerationsLimit-prepend"
+                           value="20" max="10000" min="0" name="steadyGenerationsLimit" id="steadyGenerationsLimit"
+                           [(ngModel)]="steadyGenerationsLimit">
+                </div>
+            </div>
+            <button class="btn btn-primary" *ngIf="selectedAlgorithm != undefined" (click)="startSimulation()">Start
+                simulation!
+            </button>
         </div>
-      </div>
-      <button class="btn btn-primary" *ngIf="selectedAlgorithm != undefined" (click)="startSimulation()">Start simulation!</button>
-    </div>
-  </form>
+    </form>
 </div>

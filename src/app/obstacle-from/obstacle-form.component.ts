@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-obstacle-form',
-  templateUrl: './obstacle-form.component.html'
+    selector: 'app-obstacle-form',
+    templateUrl: './obstacle-form.component.html'
 })
 export class ObstacleFormComponent {
 
-  private communicationEfficiencyPercentage = 100;
+    communicationEfficiencyPercentage = 100;
+    height = 0;
 
-  getCommunicationEfficiencyPercentage() {
-    return this.communicationEfficiencyPercentage;
-  }
+    getCommunicationEfficiencyPercentage() {
+        return this.communicationEfficiencyPercentage;
+    }
+
+    getHeight() {
+        return this.height;
+    }
 }
