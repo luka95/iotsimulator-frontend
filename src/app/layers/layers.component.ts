@@ -1,11 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import {FeatureGroup, latLng, tileLayer} from 'leaflet';
-import {SensorFormComponent} from '../sensor-form/sensor-form.component';
-import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
-import {LayersDataService} from '../_services';
-import {Feature, FeatureCollection} from 'geojson';
+
+import { FeatureGroup, latLng, tileLayer } from 'leaflet';
+import { SensorFormComponent } from '../sensor-form/sensor-form.component';
+import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
+import { LayersDataService } from '../_services';
+import { Point, Polygon, MultiPoint, LineString, Feature, FeatureCollection, Geometry, GeometryObject } from 'geojson';
+import { ModulesFormComponent } from '../modules-form/modules-form.component';
+import { isNgTemplate, AstMemoryEfficientTransformer } from '@angular/compiler';
 
 @Component({
     selector: 'app-layers',
@@ -15,6 +18,9 @@ export class LayersComponent implements OnInit {
 
     @ViewChild(SensorFormComponent) sensorFormComponent;
     @ViewChild(ObstacleFormComponent) obstacleFormComponent;
+    @ViewChild(ModulesFormComponent) modulesFormComponent;
+
+    map: any;
 
     constructor(private layersDataService: LayersDataService) {
     }
@@ -40,7 +46,7 @@ export class LayersComponent implements OnInit {
     };
 
     // Values to bind to Leaflet Directive
-    layersControlOptions = {position: 'bottomright'};
+    layersControlOptions = { position: 'bottomright' };
     options = {
         zoom: 16,
         center: latLng(45.801128, 15.9706648)
@@ -71,23 +77,10 @@ export class LayersComponent implements OnInit {
     };
 
     ngOnInit(): void {
-        // this.layersDataService.currentPoints.subscribe(() => {
-        //     this.layersDataService.changePoints(this.getPoints());
-        // });
-        // this.layersDataService.currentObstacles.subscribe(() => {
-        //     this.layersDataService.changeObstacles(this.getObstacles());
-        // });
     }
 
-    // getPoints(): FeatureCollection {
-    //     return this.points;
-    // }
-    //
-    // getObstacles(): FeatureCollection {
-    //     return this.obstacles;
-    // }
-
     onDrawCreated(event) {
+        console.log(event);
         const type = event.layerType;
 
         if (type === 'marker') {
@@ -96,7 +89,7 @@ export class LayersComponent implements OnInit {
                 iconAnchor: [10, 24],
                 iconUrl: this.getMarkerIcon()
             }));
-            event.layer = event.layer.toGeoJSON();
+
             const availableModules = [];
 
             if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
@@ -107,31 +100,21 @@ export class LayersComponent implements OnInit {
                 availableModules.push(1);
             }
 
-            event.layer.properties = {
+            event.layer.props = {
                 id: this.numberOfLayers++,
                 availableModules: availableModules,
                 modulesOn: [],
                 batteryPercentage: this.sensorFormComponent.getBatteryStatus()
             };
 
-            this.points.set(event.layer.properties.id, event.layer);
         } else {
-            event.layer = event.layer.toGeoJSON();
-            event.layer.properties = {
+            // event.layer = event.layer.toGeoJSON();
+            event.layer.props = {
                 communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage()
             };
-            // this.obstacles.features.push(event.layer);
         }
-
-        if (type === 'circle') {
-            event.layer.geometry.type = 'Circle';
-        }
-        console.log(this.points);
-        // console.log(this.obstacles);
-
 
     }
-
 
 
     getMarkerFill(id: String) {
@@ -187,4 +170,61 @@ export class LayersComponent implements OnInit {
     onDrawEdited(event) {
         console.log(event);
     }
+
+    onMapReady(map) {
+        this.map = map;
+    }
+
+    startSimulation() {
+        var markers = [];
+        var polygons = [];
+        var circles = [];
+        var bounds = [];
+        // extract all geometries from the map
+        this.map.eachLayer(function (layer) {
+            var l: any = layer;
+
+            if (layer instanceof L.Marker) {
+                const point: Point = {
+                    type: "Point",
+                    coordinates: [layer.getLatLng().lat, layer.getLatLng().lng]
+                };
+
+                var feature: Feature<Point> = {
+                    type: "Feature",
+                    properties: l.props,
+                    geometry: point
+                };
+
+                markers.push(feature);
+
+            } else if (layer instanceof L.Polygon) {
+                polygons.push(layer);
+            } else if (layer instanceof L.Circle) {
+                circles.push(layer);
+            } else if (layer instanceof L.Bounds) {
+                bounds.push(layer);
+            }
+        });
+
+        var req = {
+            modules: [],
+            algorithm: {},
+            points: {},
+            obstacles: {},
+            net: {}
+        };
+        req.modules = this.modulesFormComponent.getModules();
+        console.log(req);
+        console.log(markers);
+
+
+
+
+
+
+
+    }
+
+
 }

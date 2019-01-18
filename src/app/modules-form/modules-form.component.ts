@@ -38,4 +38,8 @@ export class ModulesFormComponent implements OnInit {
         this.configurationOpened = false;
         this.modulesDataService.changeMessage(this.modules);
     }
+
+    getModules(){
+        return this.modules;
+    }
 }

@@ -15,7 +15,7 @@ import {routing} from './app.routing';
 import {LayersComponent} from './layers/layers.component';
 import {ErrorInterceptor, JwtInterceptor} from './_helpers';
 import {AuthGuard} from './_guards';
-import {MarkerIconComponent} from './marker-icon/marker-icon.component';
+//import {MarkerIconComponent} from './marker-icon/marker-icon.component';
 import {ObstacleFormComponent} from './obstacle-from/obstacle-form.component';
 import {SimulationFormComponent} from './simulation-form/simulation-form.component';
 import {ModulesFormComponent} from './modules-form/modules-form.component';
@@ -28,7 +28,7 @@ import {ModulesFormComponent} from './modules-form/modules-form.component';
         LoginComponent,
         RegisterComponent,
         HeaderComponent,
-        MarkerIconComponent,
+        //MarkerIconComponent,
         ObstacleFormComponent,
         SimulationFormComponent,
         ModulesFormComponent
