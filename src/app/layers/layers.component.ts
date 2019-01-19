@@ -1,14 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import * as L from 'leaflet';
-
-import { FeatureGroup, latLng, tileLayer } from 'leaflet';
-import { SensorFormComponent } from '../sensor-form/sensor-form.component';
-import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
-import { LayersDataService } from '../_services';
-import { Point, Polygon, MultiPoint, LineString, Feature, FeatureCollection, Geometry, GeometryObject } from 'geojson';
-import { ModulesFormComponent } from '../modules-form/modules-form.component';
-import { isNgTemplate, AstMemoryEfficientTransformer } from '@angular/compiler';
+import {latLng, tileLayer} from 'leaflet';
+import {SensorFormComponent} from '../sensor-form/sensor-form.component';
+import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
+import {Feature, FeatureCollection, Point} from 'geojson';
+import {ModulesFormComponent} from '../modules-form/modules-form.component';
+import {SimulationFormComponent} from '../simulation-form/simulation-form.component';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-layers',
@@ -19,10 +18,11 @@ export class LayersComponent implements OnInit {
     @ViewChild(SensorFormComponent) sensorFormComponent;
     @ViewChild(ObstacleFormComponent) obstacleFormComponent;
     @ViewChild(ModulesFormComponent) modulesFormComponent;
+    @ViewChild(SimulationFormComponent) simulationFormComponent;
 
     map: any;
 
-    constructor(private layersDataService: LayersDataService) {
+    constructor(private sanitizer: DomSanitizer) {
     }
 
     LAYER_OTM = {
@@ -58,8 +58,6 @@ export class LayersComponent implements OnInit {
 
     numberOfLayers = 0;
 
-    points = new Map<number, Feature>();
-
     drawOptions = {
         position: 'topright',
         draw: {
@@ -71,7 +69,7 @@ export class LayersComponent implements OnInit {
                 })
             },
             polyline: true,
-            circle: true,
+            circle: false,
             circlemarker: false
         }
     };
@@ -80,10 +78,7 @@ export class LayersComponent implements OnInit {
     }
 
     onDrawCreated(event) {
-        console.log(event);
-        const type = event.layerType;
-
-        if (type === 'marker') {
+        if (event.layerType === 'marker') {
             event.layer.setIcon(L.icon({
                 iconSize: [20, 24],
                 iconAnchor: [10, 24],
@@ -108,14 +103,13 @@ export class LayersComponent implements OnInit {
             };
 
         } else {
-            // event.layer = event.layer.toGeoJSON();
             event.layer.props = {
-                communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage()
+                communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage(),
+                height: this.obstacleFormComponent.getHeight()
             };
         }
 
     }
-
 
     getMarkerFill(id: String) {
         const loraColor = '#3F3665';
@@ -163,67 +157,75 @@ export class LayersComponent implements OnInit {
         return encodeURI('data:image/svg+xml,' + mySvgString).replace('#', '%23');
     }
 
-    onDrawDeleted(event) {
-        console.log(event);
-    }
-
-    onDrawEdited(event) {
-        console.log(event);
-    }
-
     onMapReady(map) {
         this.map = map;
     }
 
     startSimulation() {
-        var markers = [];
-        var polygons = [];
-        var circles = [];
-        var bounds = [];
+        const simulationParameters = this.getAllSimulationParameters();
+        console.log(simulationParameters);
+
+
+    }
+
+    export() {
+        const simulationParameters = this.getAllSimulationParameters();
+        const data = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(simulationParameters));
+        return this.sanitizer.bypassSecurityTrustUrl(data);
+    }
+
+    getAllSimulationParameters() {
+        const markers: FeatureCollection = {
+            type: 'FeatureCollection',
+            features: []
+        };
+        const obstacles: FeatureCollection = {
+            type: 'FeatureCollection',
+            features: []
+        };
         // extract all geometries from the map
         this.map.eachLayer(function (layer) {
-            var l: any = layer;
+            const l: any = layer;
 
             if (layer instanceof L.Marker) {
                 const point: Point = {
-                    type: "Point",
+                    type: 'Point',
                     coordinates: [layer.getLatLng().lat, layer.getLatLng().lng]
                 };
 
-                var feature: Feature<Point> = {
-                    type: "Feature",
+                const feature: Feature<Point> = {
+                    type: 'Feature',
                     properties: l.props,
                     geometry: point
                 };
 
-                markers.push(feature);
+                markers.features.push(feature);
 
             } else if (layer instanceof L.Polygon) {
-                polygons.push(layer);
-            } else if (layer instanceof L.Circle) {
-                circles.push(layer);
-            } else if (layer instanceof L.Bounds) {
-                bounds.push(layer);
+                const polygon = layer.toGeoJSON();
+                polygon.properties = l.props;
+                obstacles.features.push(polygon);
+            } else if (layer instanceof L.Polyline) {
+                const polyline = layer.toGeoJSON();
+                polyline.properties = l.props;
+                obstacles.features.push(polyline);
             }
         });
 
-        var req = {
+        const simulationParameters = {
             modules: [],
             algorithm: {},
             points: {},
             obstacles: {},
             net: {}
         };
-        req.modules = this.modulesFormComponent.getModules();
-        console.log(req);
-        console.log(markers);
 
+        simulationParameters.algorithm = this.simulationFormComponent.getAlgorthmParameters();
+        simulationParameters.modules = this.modulesFormComponent.getModules();
+        simulationParameters.obstacles = obstacles;
+        simulationParameters.points = markers;
 
-
-
-
-
-
+        return simulationParameters;
     }
 
 

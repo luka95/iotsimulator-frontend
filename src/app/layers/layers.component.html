@@ -2,8 +2,8 @@
     <app-simulation-form></app-simulation-form>
     <app-modules-form></app-modules-form>
     <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
-        [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions" (leafletDrawCreated)="onDrawCreated($event)"
-        (leafletMapReady)="onMapReady($event)" (leafletDrawDeleted)="onDrawDeleted($event)" (leafletDrawEdited)="onDrawEdited($event)">
+        [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions"
+         (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
     </div>
     <div class="row">
         <div class="col">
@@ -16,6 +16,9 @@
     <div class="row">
         <div class="col">
             <button class="btn btn-success" (click)="startSimulation()">Start Simulation</button>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" role="button" [attr.href]="export()" download="download.json">Export configuration</a>
         </div>
     </div>
 

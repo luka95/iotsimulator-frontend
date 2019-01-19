@@ -36,10 +36,12 @@ export class SimulationFormComponent implements OnInit {
         this.layersDataService.currentObstacles.subscribe(obstacles => this.obstacles = obstacles);
     }
 
-    startSimulation() {
-        console.log('CLICKED!');
-        console.log(this.modules);
-        this.layersDataService.changePoints({type: 'FeatureCollection', features: []});
-        this.layersDataService.changeObstacles({type: 'FeatureCollection', features: []});
+    getAlgorthmParameters() {
+        return {
+            'type': this.algorithms[0].value,
+            'population': this.population,
+            'limitIterations': this.iterationsLimit,
+            'limitSteadyGenerations': this.steadyGenerationsLimit
+        };
     }
 }
