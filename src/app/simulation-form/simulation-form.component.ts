@@ -1,47 +1,42 @@
-import {Component, OnInit} from '@angular/core';
-import {CommunicationModule} from '../modules-form/modules-form.component';
-import {LayersDataService, ModulesDataService} from '../_services';
-import {FeatureCollection} from 'geojson';
+import {Component} from '@angular/core';
 
 export interface Algorithm {
     value: string;
     viewValue: string;
 }
 
+export interface AlgorithmParameters {
+    algorithm: Algorithm;
+    population?: number;
+    iterationsLimit?: number;
+    steadyGenerationsLimit?: number;
+}
+
 @Component({
     selector: 'app-simulation-form',
     templateUrl: './simulation-form.component.html'
 })
-export class SimulationFormComponent implements OnInit {
-
-    private modules: CommunicationModule[];
-    private points: FeatureCollection;
-    private obstacles: FeatureCollection;
-
-    private selectedAlgorithm: Algorithm;
-    private population = 20;
-    private iterationsLimit = 1000;
-    private steadyGenerationsLimit = 100;
+export class SimulationFormComponent {
 
     algorithms: Algorithm[] = [
-        {value: 'GeneticAlgorithmModel', viewValue: 'Genetic'}
+        {value: 'GeneticAlgorithmModel', viewValue: 'Genetic algorithm'}
     ];
 
-    constructor(private modulesDataService: ModulesDataService, private layersDataService: LayersDataService) {
+    private selectedAlgorithm: AlgorithmParameters = {
+        algorithm: this.algorithms[0],
+        population: 20,
+        iterationsLimit: 1000,
+        steadyGenerationsLimit: 100
+    };
+
+    constructor() {
     }
 
-    ngOnInit(): void {
-        this.modulesDataService.modules.subscribe(modules => this.modules = modules);
-        this.layersDataService.currentPoints.subscribe(points => this.points = points);
-        this.layersDataService.currentObstacles.subscribe(obstacles => this.obstacles = obstacles);
+    getAlgorithmParameters(): AlgorithmParameters {
+        return this.selectedAlgorithm;
     }
 
-    getAlgorthmParameters() {
-        return {
-            type: this.algorithms[0].value,
-            population: this.population,
-            limitIterations: this.iterationsLimit,
-            limitSteadyGenerations: this.steadyGenerationsLimit
-        };
+    setAlgorithmParameters(algorithmParameters: AlgorithmParameters) {
+        this.selectedAlgorithm = algorithmParameters;
     }
 }

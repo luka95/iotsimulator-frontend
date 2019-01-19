@@ -9,14 +9,15 @@
                 </option>
             </select><br>
 
-            <div *ngIf="selectedAlgorithm == 'GeneticAlgorithmModel'">
+            <div *ngIf="selectedAlgorithm.algorithm.value == 'GeneticAlgorithmModel'">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="population-prepend">Population size</span>
                     </div>
                     <input type="number" class="form-control" aria-label="population"
                            aria-describedby="population-prepend"
-                           value="20" max="100" min="20" name="population" id="population" [(ngModel)]="population">
+                           value="20" max="100" min="20" name="population" id="population"
+                           [(ngModel)]="selectedAlgorithm.population">
                 </div>
 
                 <div class="input-group input-group-sm mb-3">
@@ -26,7 +27,7 @@
                     <input type="number" class="form-control" aria-label="population"
                            aria-describedby="iterationsLimit-prepend"
                            value="100" max="10000" min="0" name="iterationsLimit" id="iterationsLimit"
-                           [(ngModel)]="iterationsLimit">
+                           [(ngModel)]="selectedAlgorithm.iterationsLimit">
                 </div>
 
                 <div class="input-group input-group-sm mb-3">
@@ -37,7 +38,7 @@
                     <input type="number" class="form-control" aria-label="steadyGenerationsLimit"
                            aria-describedby="steadyGenerationsLimit-prepend"
                            value="20" max="10000" min="0" name="steadyGenerationsLimit" id="steadyGenerationsLimit"
-                           [(ngModel)]="steadyGenerationsLimit">
+                           [(ngModel)]="selectedAlgorithm.steadyGenerationsLimit">
                 </div>
             </div>
         </div>
