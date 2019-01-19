@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import { geoJSON, latLng, tileLayer} from 'leaflet';
+import { geoJSON, latLng, tileLayer } from 'leaflet';
 import { SensorFormComponent } from '../sensor-form/sensor-form.component';
 import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
 import { Feature, FeatureCollection, Point } from 'geojson';
@@ -9,7 +9,7 @@ import { CommunicationModule, ModulesFormComponent } from '../modules-form/modul
 import { SimulationFormComponent } from '../simulation-form/simulation-form.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SimulationService } from '../_services/simulation.service';
-import {ModulesDataService} from '../_services/modules-data.service';
+import { ModulesDataService } from '../_services/modules-data.service';
 
 export interface SimulationParameters {
     modules: CommunicationModule[];
@@ -30,6 +30,7 @@ export class LayersComponent implements OnInit {
     @ViewChild(SimulationFormComponent) simulationFormComponent;
 
     map: any;
+    loading: boolean = false;
 
     constructor(private sanitizer: DomSanitizer, private simulationService: SimulationService, private modulesDataService: ModulesDataService) {
     }
@@ -229,13 +230,16 @@ export class LayersComponent implements OnInit {
     }
 
     startSimulation() {
+        this.loading = true;
         const simulationParameters = this.getAllSimulationParameters();
         this.simulationService.createSimulation(simulationParameters)
             .subscribe(
                 data => {
+                    this.loading = false;
                     console.log(data);
                 },
                 error => {
+                    this.loading = false;
                     console.log(error);
                 });
     }
@@ -244,6 +248,10 @@ export class LayersComponent implements OnInit {
         const simulationParameters = this.getAllSimulationParameters();
         const data = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(simulationParameters));
         return this.sanitizer.bypassSecurityTrustUrl(data);
+    }
+
+    selectFile() {
+        document.getElementById("file").click();
     }
 
     getAllSimulationParameters() {

@@ -5,15 +5,11 @@ import {CommunicationModule} from '../modules-form/modules-form.component';
 @Injectable()
 export class ModulesDataService {
 
-    private messageSource = new BehaviorSubject<CommunicationModule[]>([{
-        id: -1,
-        energyIdle: -1,
-        energySending: -1,
-        energyReceiving: -1,
-        name: 'default',
-        range: -1
-    }]);
-    modules = new BehaviorSubject<CommunicationModule[]>([]);
+    private defaultModules: CommunicationModule[] = [
+        {id: 0, name: 'Lorawan', energySending: 5, energyReceiving: 0.5, energyIdle: 0.005, range: 5},
+        {id: 1, name: 'Xbee', energySending: 3, energyReceiving: 0.3, energyIdle: 0.001, range: 2}
+    ];
+    modules = new BehaviorSubject<CommunicationModule[]>(this.defaultModules);
 
     constructor() {
     }
