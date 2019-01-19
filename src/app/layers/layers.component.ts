@@ -1,13 +1,15 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import {latLng, tileLayer} from 'leaflet';
-import {SensorFormComponent} from '../sensor-form/sensor-form.component';
-import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
-import {Feature, FeatureCollection, Point} from 'geojson';
-import {ModulesFormComponent} from '../modules-form/modules-form.component';
-import {SimulationFormComponent} from '../simulation-form/simulation-form.component';
-import {DomSanitizer} from '@angular/platform-browser';
+import { latLng, tileLayer } from 'leaflet';
+import { SensorFormComponent } from '../sensor-form/sensor-form.component';
+import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
+import { Feature, FeatureCollection, Point } from 'geojson';
+import { ModulesFormComponent } from '../modules-form/modules-form.component';
+import { SimulationFormComponent } from '../simulation-form/simulation-form.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SimulationService } from '../_services/simulation.service';
+
 
 @Component({
     selector: 'app-layers',
@@ -22,7 +24,7 @@ export class LayersComponent implements OnInit {
 
     map: any;
 
-    constructor(private sanitizer: DomSanitizer) {
+    constructor(private sanitizer: DomSanitizer, private simulationService: SimulationService) {
     }
 
     LAYER_OTM = {
@@ -163,8 +165,14 @@ export class LayersComponent implements OnInit {
 
     startSimulation() {
         const simulationParameters = this.getAllSimulationParameters();
-        console.log(simulationParameters);
-
+        this.simulationService.createSimulation(simulationParameters)
+            .subscribe(
+                data => {
+                    console.log(data);
+                },
+                error => {
+                    console.log(error);
+                });
 
     }
 
@@ -216,8 +224,7 @@ export class LayersComponent implements OnInit {
             modules: [],
             algorithm: {},
             points: {},
-            obstacles: {},
-            net: {}
+            obstacles: {}
         };
 
         simulationParameters.algorithm = this.simulationFormComponent.getAlgorthmParameters();

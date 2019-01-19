@@ -16,6 +16,9 @@ export class SimulationService {
     getById(id: number) {
         return this.http.get<any>(AppComponent.API_URL + `/simulation/` + id);
     }
+    createSimulation(model: any) {
+        return this.http.post(AppComponent.API_URL + `/simulation`, model);
+    }
 
     getByIdInfo(id: number) {
         return this.http.get<SimulationInfo>(AppComponent.API_URL + `/simulationinfo/` + id);
