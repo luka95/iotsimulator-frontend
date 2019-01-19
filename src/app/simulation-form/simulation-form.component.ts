@@ -38,10 +38,10 @@ export class SimulationFormComponent implements OnInit {
 
     getAlgorthmParameters() {
         return {
-            'type': this.algorithms[0].value,
-            'population': this.population,
-            'limitIterations': this.iterationsLimit,
-            'limitSteadyGenerations': this.steadyGenerationsLimit
+            type: this.algorithms[0].value,
+            population: this.population,
+            limitIterations: this.iterationsLimit,
+            limitSteadyGenerations: this.steadyGenerationsLimit
         };
     }
 }

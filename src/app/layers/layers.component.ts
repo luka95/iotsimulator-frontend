@@ -1,16 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import { latLng, tileLayer } from 'leaflet';
+import { geoJSON, latLng, tileLayer} from 'leaflet';
 import { SensorFormComponent } from '../sensor-form/sensor-form.component';
 import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
 import { Feature, FeatureCollection, Point } from 'geojson';
-import { ModulesFormComponent } from '../modules-form/modules-form.component';
+import { CommunicationModule, ModulesFormComponent } from '../modules-form/modules-form.component';
 import { SimulationFormComponent } from '../simulation-form/simulation-form.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SimulationService } from '../_services/simulation.service';
 import {ModulesDataService} from '../_services/modules-data.service';
 
+export interface SimulationParameters {
+    modules: CommunicationModule[];
+    algorithm: {};
+    points: FeatureCollection;
+    obstacles: FeatureCollection;
+    net: FeatureCollection;
+}
 
 @Component({
     selector: 'app-layers',
@@ -76,7 +83,59 @@ export class LayersComponent implements OnInit {
         }
     };
 
+    static hasFeatures(featureCollection: FeatureCollection): boolean {
+        return featureCollection.features !== undefined && featureCollection.features.length > 0;
+    }
+
     ngOnInit(): void {
+    }
+
+    applyConfiguration(configuration: SimulationParameters) {
+        this.map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker || layer instanceof L.Polygon || layer instanceof L.Polyline) {
+                layer.remove();
+            }
+        });
+
+        console.log(configuration);
+
+        // this.drawObstacles(configuration.points);
+        this.drawObstaclesAndNet(configuration.obstacles, '#ffcb7a');
+        this.drawObstaclesAndNet(configuration.obstacles, '#ff1c17');
+
+    }
+
+    // drawPoints(featureCollection: FeatureCollection) {
+    //     if (LayersComponent.hasFeatures(featureCollection)) {
+    //         featureCollection.features.forEach((value) => {
+    //             const layer = geoJSON(value);
+    //             layer.setIcon(L.icon({
+    //                 iconSize: [20, 24],
+    //                 iconAnchor: [10, 24],
+    //                 iconUrl: this.getMarkerIcon()
+    //             }));
+    //
+    //             this.map.addLayer(layer);
+    //         });
+    //     }
+    // }
+
+    drawObstaclesAndNet(featureCollection: FeatureCollection, color: string) {
+        if (LayersComponent.hasFeatures(featureCollection)) {
+            featureCollection.features.forEach((value) => {
+                const layer = geoJSON(value);
+                layer.setStyle(() => ({ color: color }));
+                this.map.addLayer(layer);
+            });
+        }
+    }
+
+    handleFileUpload($event) {
+        const file = $event.target.files.item(0);
+        const reader = new FileReader();
+
+        reader.readAsText(file);
+        reader.onload = ev => this.applyConfiguration(JSON.parse((ev as any).target.result));
     }
 
     onDrawCreated(event) {
@@ -113,26 +172,32 @@ export class LayersComponent implements OnInit {
 
     }
 
-    getMarkerFill(id: String) {
-        const loraColor = '#3F3665';
-        const xbeeColor = '#864545';
-
+    getMarkerFill(id: String, loraAvailable?: boolean, xbeeAvailable?: boolean) {
         if (this.sensorFormComponent === undefined) {
             return 'none';
         }
 
-        const lora = this.sensorFormComponent.getLoraWanSelectedStatus();
-        const xbee = this.sensorFormComponent.getXbeeSelectedStatus();
+        if (loraAvailable === undefined) {
+            loraAvailable = this.sensorFormComponent.getLoraWanSelectedStatus();
+        }
+
+        if (xbeeAvailable === undefined) {
+            xbeeAvailable = this.sensorFormComponent.getXbeeSelectedStatus();
+        }
+
+        const loraColor = '#3F3665';
+        const xbeeColor = '#864545';
+
         let colorToReturn = '';
 
-        if (lora === true && xbee === true) {
+        if (loraAvailable === true && xbeeAvailable === true) {
             if (id === 'Left') {
                 colorToReturn = loraColor;
             } else if (id === 'Right') {
                 colorToReturn = xbeeColor;
             }
-        } else if (lora === true || xbee === true) {
-            colorToReturn = lora === true ? loraColor : xbeeColor;
+        } else if (loraAvailable === true || xbeeAvailable === true) {
+            colorToReturn = loraAvailable === true ? loraColor : xbeeColor;
         } else {
             colorToReturn = 'none';
         }
@@ -173,7 +238,6 @@ export class LayersComponent implements OnInit {
                 error => {
                     console.log(error);
                 });
-
     }
 
     export() {
@@ -234,6 +298,4 @@ export class LayersComponent implements OnInit {
 
         return simulationParameters;
     }
-
-
 }
