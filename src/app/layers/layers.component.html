@@ -2,7 +2,7 @@
     <app-simulation-form></app-simulation-form>
     <app-modules-form></app-modules-form>
     <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
-        [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions"
+        [leafletBaseLayers]="baseLayers" [leafletLayersControlOptions]="layersControlOptions"
          (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
     </div>
     <div class="row">
@@ -19,6 +19,9 @@
         </div>
         <div class="col">
             <a class="btn btn-primary" role="button" [attr.href]="export()" download="download.json">Export configuration</a>
+        </div>
+        <div class="form-group">
+            <input type="file" class="btn btn-primary" id="file" (change)="handleFileUpload($event)">
         </div>
     </div>
 
