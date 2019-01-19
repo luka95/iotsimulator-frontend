@@ -1,34 +1,29 @@
 <div class="container-fluid">
     <form>
         <div>
-            <button class="btn btn-primary" *ngIf="!configurationOpened" (click)="openConfiguration()">Configure
-                Modules
-            </button>
-            <button class="btn btn-success" *ngIf="configurationOpened" (click)="closeConfiguration()">Save</button>
-
-            <h4 *ngIf="configurationOpened">Communication modules:</h4>
-            <div *ngIf="configurationOpened" class="row">
+            <h4>Communication modules:</h4>
+            <div class="row">
                 <div *ngFor="let module of modules; let i = index" class="col">
                     <h5>{{module.name}}</h5>
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="energy-sending-prepend-{{i}}">Energy consumption when sending</span>
+                            <span class="input-group-text" id="energy-sending-prepend-{{i}}">Energy consumption when
+                                sending</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="energySending-{{i}}"
-                               attr.aria-describedby="energy-sending-prepend-{{i}}"
-                               value="{{module.energySending}}" name="energySending-{{i}}" id="energySending-{{i}}"
-                               [(ngModel)]="module.energySending">
+                            attr.aria-describedby="energy-sending-prepend-{{i}}" value="{{module.energySending}}" name="energySending-{{i}}"
+                            id="energySending-{{i}}" [(ngModel)]="module.energySending">
                     </div>
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="energy-receiving-prepend-{{i}}">Energy consumption when receiving</span>
+                            <span class="input-group-text" id="energy-receiving-prepend-{{i}}">Energy consumption when
+                                receiving</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="energyReceiving-{{i}}"
-                               attr.aria-describedby="energy-receiving-prepend-{{i}}"
-                               value="{{module.energyReceiving}}" name="energyReceiving-{{i}}" id="energyReceiving-{{i}}"
-                               [(ngModel)]="module.energyReceiving">
+                            attr.aria-describedby="energy-receiving-prepend-{{i}}" value="{{module.energyReceiving}}"
+                            name="energyReceiving-{{i}}" id="energyReceiving-{{i}}" [(ngModel)]="module.energyReceiving">
                     </div>
 
                     <div class="input-group input-group-sm mb-3">
@@ -36,24 +31,21 @@
                             <span class="input-group-text" id="energy-idle-prepend-{{i}}">Energy consumption when idle</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="energyIdle-{{i}}"
-                               attr.aria-describedby="energy-idle-prepend-{{i}}"
-                               value="{{module.energyIdle}}" name="energyIdle-{{i}}" id="energyIdle-{{i}}"
-                               [(ngModel)]="module.energyIdle">
+                            attr.aria-describedby="energy-idle-prepend-{{i}}" value="{{module.energyIdle}}" name="energyIdle-{{i}}"
+                            id="energyIdle-{{i}}" [(ngModel)]="module.energyIdle">
                     </div>
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="range-prepend-{{i}}">Range</span>
                         </div>
-                        <input type="number" class="form-control" attr.aria-label="range-{{i}}"
-                               attr.aria-describedby="range-prepend-{{i}}"
-                               value="{{module.range}}" name="range-{{i}}" id="range-{{i}}" [(ngModel)]="module.range">
+                        <input type="number" class="form-control" attr.aria-label="range-{{i}}" attr.aria-describedby="range-prepend-{{i}}"
+                            value="{{module.range}}" name="range-{{i}}" id="range-{{i}}" [(ngModel)]="module.range">
                     </div>
 
                 </div>
             </div>
-            <button *ngIf="selectedAlgorithm != undefined" (click)="startSimulation()">Start simulation!</button>
+                    <button class="btn btn-success" (click)="save()">Save</button>
         </div>
     </form>
 </div>
-

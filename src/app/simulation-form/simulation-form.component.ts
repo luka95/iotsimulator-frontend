@@ -31,7 +31,7 @@ export class SimulationFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.modulesDataService.currentMessage.subscribe(modules => this.modules = modules);
+        this.modulesDataService.modules.subscribe(modules => this.modules = modules);
         this.layersDataService.currentPoints.subscribe(points => this.points = points);
         this.layersDataService.currentObstacles.subscribe(obstacles => this.obstacles = obstacles);
     }

@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {User} from '../_models';
-import {HttpErrorResponse} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../_models';
 
-import {AuthenticationService} from '../_services';
+import { AuthenticationService } from '../_services';
 
-@Component({templateUrl: 'login.component.html'})
+@Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
@@ -27,14 +26,12 @@ export class LoginComponent implements OnInit {
             password: ['', Validators.required]
         });
 
-        // reset login status
         this.authenticationService.logout();
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
-    // convenience getter for easy access to form fields
     get f() {
         return this.loginForm.controls;
     }
@@ -42,7 +39,6 @@ export class LoginComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
 
-        // stop here if form is invalid
         if (this.loginForm.invalid) {
             return;
         }
@@ -60,10 +56,10 @@ export class LoginComponent implements OnInit {
                         this.router.navigate([this.returnUrl]);
                     }
                 },
-                (err: HttpErrorResponse) => {
-                    this.error = 'Invalid credentials';
-                    console.log(err);
+                err => {
+                    this.error = err;
                     this.loading = false;
+                    console.log(err);
                 });
     }
 }

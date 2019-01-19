@@ -16,30 +16,23 @@ export interface CommunicationModule {
 })
 export class ModulesFormComponent implements OnInit {
 
-    configurationOpened = false;
-
-    modules: CommunicationModule[] = [
+    private defaultModules: CommunicationModule[] = [
         {id: 0, name: 'Lorawan', energySending: 5, energyReceiving: 0.5, energyIdle: 0.005, range: 5},
         {id: 1, name: 'Xbee', energySending: 3, energyReceiving: 0.3, energyIdle: 0.001, range: 2}
     ];
+    private modules: CommunicationModule[];
 
     constructor(private modulesDataService: ModulesDataService) {
     }
 
     ngOnInit(): void {
-        this.modulesDataService.changeMessage(this.modules);
+        if (this.modulesDataService.getModules().length == 0){
+            this.modulesDataService.updateModules(this.defaultModules);
+        }
+        this.modules = this.modulesDataService.getModules();
     }
 
-    openConfiguration() {
-        this.configurationOpened = true;
-    }
-
-    closeConfiguration() {
-        this.configurationOpened = false;
-        this.modulesDataService.changeMessage(this.modules);
-    }
-
-    getModules(){
-        return this.modules;
+    save(){
+        this.modulesDataService.updateModules(this.modules);
     }
 }

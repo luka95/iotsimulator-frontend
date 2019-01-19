@@ -9,6 +9,7 @@ import { ModulesFormComponent } from '../modules-form/modules-form.component';
 import { SimulationFormComponent } from '../simulation-form/simulation-form.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SimulationService } from '../_services/simulation.service';
+import {ModulesDataService} from '../_services/modules-data.service';
 
 
 @Component({
@@ -19,12 +20,11 @@ export class LayersComponent implements OnInit {
 
     @ViewChild(SensorFormComponent) sensorFormComponent;
     @ViewChild(ObstacleFormComponent) obstacleFormComponent;
-    @ViewChild(ModulesFormComponent) modulesFormComponent;
     @ViewChild(SimulationFormComponent) simulationFormComponent;
 
     map: any;
 
-    constructor(private sanitizer: DomSanitizer, private simulationService: SimulationService) {
+    constructor(private sanitizer: DomSanitizer, private simulationService: SimulationService, private modulesDataService: ModulesDataService) {
     }
 
     LAYER_OTM = {
@@ -228,7 +228,7 @@ export class LayersComponent implements OnInit {
         };
 
         simulationParameters.algorithm = this.simulationFormComponent.getAlgorthmParameters();
-        simulationParameters.modules = this.modulesFormComponent.getModules();
+        simulationParameters.modules = this.modulesDataService.getModules();
         simulationParameters.obstacles = obstacles;
         simulationParameters.points = markers;
 

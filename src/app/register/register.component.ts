@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {User} from '../_models';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../_models';
+import { UserService } from '../_services';
 
-import {UserService} from '../_services';
-
-@Component({templateUrl: 'register.component.html'})
+@Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
@@ -42,16 +41,19 @@ export class RegisterComponent implements OnInit {
         let user = new User();
         user.username = this.registerForm.value.username;
         user.password = this.registerForm.value.password;
+
         this.userService.register(user)
+            
             .subscribe(
-                data => {
+                user => {
                     this.loading = false;
                     this.router.navigate(['/login']);
+                    console.log(user);
                 },
-                error => {
+                err => {
                     this.loading = false;
-                    this.error = error;
-                    console.log(error);
+                    this.error = err;
+                    console.log(err);
                 });
     }
 }

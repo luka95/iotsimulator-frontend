@@ -1,25 +1,31 @@
-<div style="margin-left:5%;margin-right:5%;margin-top:2%;">
-    <app-simulation-form></app-simulation-form>
-    <app-modules-form></app-modules-form>
-    <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
-        [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions"
-         (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
-    </div>
+<div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <app-sensor-form></app-sensor-form>
+        <div class="col-md-8">
+            <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
+                [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions"
+                (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
+            </div>
         </div>
-        <div class="col">
-            <app-obstacle-form></app-obstacle-form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-success" (click)="startSimulation()">Start Simulation</button>
-        </div>
-        <div class="col">
-            <a class="btn btn-primary" role="button" [attr.href]="export()" download="download.json">Export configuration</a>
+        <div class="col-md-4">
+            <div class="card">
+                <app-simulation-form></app-simulation-form>
+            </div>
+            <div class="card">
+                <app-sensor-form></app-sensor-form>
+            </div>
+            <div class="card">
+                <app-obstacle-form></app-obstacle-form>
+            </div>
+            <div class="container-fluid">
+                <button class="btn btn-success" (click)="startSimulation()">Start Simulation</button>
+            </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" role="button" [attr.href]="export()" download="download.json">Export
+                configuration</a>
+        </div>
+    </div>
 </div>

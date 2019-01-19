@@ -4,6 +4,8 @@ import {RegisterComponent} from './register';
 import {SimulationsComponent} from './simulations';
 
 import {LayersComponent} from './layers/layers.component';
+import {ModulesFormComponent} from './modules-form/modules-form.component'
+
 import {AuthGuard} from './_guards';
 
 const appRoutes: Routes = [
@@ -11,6 +13,8 @@ const appRoutes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'dashboard', component: LayersComponent, canActivate: [AuthGuard]},
     {path: 'simulations', component: SimulationsComponent, canActivate: [AuthGuard]},
+    {path: 'modules', component: ModulesFormComponent, canActivate: [AuthGuard]},
+
     {path: '**', redirectTo: 'dashboard'}
 ];
 

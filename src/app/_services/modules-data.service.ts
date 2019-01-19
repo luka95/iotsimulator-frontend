@@ -13,12 +13,16 @@ export class ModulesDataService {
         name: 'default',
         range: -1
     }]);
-    currentMessage = this.messageSource.asObservable();
+    modules = new BehaviorSubject<CommunicationModule[]>([]);
 
     constructor() {
     }
 
-    changeMessage(module: CommunicationModule[]) {
-        this.messageSource.next(module);
+    getModules(){
+        return this.modules.value;
+    }
+
+    updateModules(module: CommunicationModule[]) {
+        this.modules.next(module);
     }
 }
