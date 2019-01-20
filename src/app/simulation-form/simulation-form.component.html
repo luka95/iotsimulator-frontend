@@ -2,8 +2,8 @@
     <h5>Algorithm Properties</h5>
     <form>
         <div>
-            <label>Algorithm: {{selectedAlgorithm.algorithm.viewValue}}</label><br>
-            <div *ngIf="selectedAlgorithm.algorithm.value == 'GeneticAlgorithmModel'">
+            <label>Algorithm: {{findAlgorithmNameByValue(selectedAlgorithm.type)}}</label><br>
+            <div *ngIf="selectedAlgorithm.type == 'GeneticAlgorithmModel'">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="population-prepend">Population size</span>

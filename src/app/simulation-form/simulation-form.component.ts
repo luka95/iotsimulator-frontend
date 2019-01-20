@@ -6,7 +6,7 @@ export interface Algorithm {
 }
 
 export interface AlgorithmParameters {
-    algorithm: Algorithm;
+    type: string;
     population?: number;
     iterationsLimit?: number;
     steadyGenerationsLimit?: number;
@@ -23,11 +23,15 @@ export class SimulationFormComponent {
     ];
 
     private selectedAlgorithm: AlgorithmParameters = {
-        algorithm: this.algorithms[0],
+        type: this.algorithms[0].value,
         population: 20,
         iterationsLimit: 1000,
         steadyGenerationsLimit: 100
     };
+
+    private findAlgorithmNameByValue(value: string) {
+        return this.algorithms.find(value1 => value1.value === this.selectedAlgorithm.type).viewValue;
+    }
 
     constructor() {
     }
