@@ -4,12 +4,11 @@ import * as L from 'leaflet';
 import {featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer} from 'leaflet';
 import {SensorFormComponent} from '../sensor-form/sensor-form.component';
 import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
-import {Feature, FeatureCollection, Point} from 'geojson';
+import {FeatureCollection} from 'geojson';
 import {CommunicationModule} from '../modules-form/modules-form.component';
 import {AlgorithmParameters, SimulationFormComponent} from '../simulation-form/simulation-form.component';
 import {DomSanitizer} from '@angular/platform-browser';
-import {SimulationService} from '../_services/simulation.service';
-import {ModulesDataService} from '../_services/modules-data.service';
+import {ModulesDataService, SimulationService} from '../_services';
 
 export interface SimulationParameters {
     modules: CommunicationModule[];
@@ -99,7 +98,7 @@ export class LayersComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    applyConfiguration(configuration: SimulationParameters) {
+    applyConfiguration(configuration: SimulationParameters): void {
         console.log(this.map);
         this.map.eachLayer(layer => {
             if (layer instanceof L.Marker || layer instanceof L.Polygon || layer instanceof L.Polyline) {
@@ -118,7 +117,7 @@ export class LayersComponent implements OnInit {
         this.drawObstaclesAndNet(configuration.net, '#ff1c17');
     }
 
-    drawPoints(featureCollection: FeatureCollection) {
+    drawPoints(featureCollection: FeatureCollection): void {
         const newLayers = [];
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
@@ -143,7 +142,7 @@ export class LayersComponent implements OnInit {
         this.layers = newLayers;
     }
 
-    drawObstaclesAndNet(featureCollection: FeatureCollection, color: string) {
+    drawObstaclesAndNet(featureCollection: FeatureCollection, color: string): void {
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
                 console.log(value);
@@ -183,7 +182,7 @@ export class LayersComponent implements OnInit {
         }
     }
 
-    handleFileUpload($event) {
+    handleFileUpload($event): void {
         const file = $event.target.files.item(0);
         const reader = new FileReader();
 
@@ -191,7 +190,7 @@ export class LayersComponent implements OnInit {
         reader.onload = ev => this.applyConfiguration(JSON.parse((ev as any).target.result));
     }
 
-    onDrawCreated(event) {
+    onDrawCreated(event): void {
         if (event.layerType === 'marker') {
             console.log(event.layer);
             event.layer.setIcon(L.icon({
@@ -227,7 +226,7 @@ export class LayersComponent implements OnInit {
         this.map.removeLayer(event.layer);
     }
 
-    getMarkerFill(id: String, loraAvailable?: boolean, xbeeAvailable?: boolean) {
+    getMarkerFill(id: String, loraAvailable?: boolean, xbeeAvailable?: boolean): string {
         if (this.sensorFormComponent === undefined) {
             return 'none';
         }
@@ -259,7 +258,7 @@ export class LayersComponent implements OnInit {
         return colorToReturn;
     }
 
-    getMarkerIcon(loraAvailable?: boolean, xbeeAvailable?: boolean) {
+    getMarkerIcon(loraAvailable?: boolean, xbeeAvailable?: boolean): string {
         const leftFill = this.getMarkerFill('Left', loraAvailable, xbeeAvailable);
         const rightFill = this.getMarkerFill('Right', loraAvailable, xbeeAvailable);
 
@@ -279,11 +278,11 @@ export class LayersComponent implements OnInit {
         return encodeURI('data:image/svg+xml,' + mySvgString).replace('#', '%23');
     }
 
-    onMapReady(map) {
+    onMapReady(map): void {
         this.map = map;
     }
 
-    startSimulation() {
+    startSimulation(): void {
         this.loading = true;
         const simulationParameters = this.getAllSimulationParameters();
         this.simulationService.createSimulation(simulationParameters)
@@ -308,7 +307,7 @@ export class LayersComponent implements OnInit {
         document.getElementById('file').click();
     }
 
-    getAllSimulationParameters() {
+    getAllSimulationParameters(): SimulationParameters {
         const markers: FeatureCollection = {
             type: 'FeatureCollection',
             features: []
@@ -340,7 +339,7 @@ export class LayersComponent implements OnInit {
             }
         });
 
-        const simulationParameters: SimulationParameters = {
+        return {
             modules: this.modulesDataService.getModules(),
             algorithm: this.simulationFormComponent.getAlgorithmParameters(),
             points: markers,
@@ -350,7 +349,5 @@ export class LayersComponent implements OnInit {
                 features: []
             }
         };
-
-        return simulationParameters;
     }
 }

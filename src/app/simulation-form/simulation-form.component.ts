@@ -8,8 +8,8 @@ export interface Algorithm {
 export interface AlgorithmParameters {
     type: string;
     population?: number;
-    iterationsLimit?: number;
-    steadyGenerationsLimit?: number;
+    limitIterations?: number;
+    limitSteadyGenerations?: number;
 }
 
 @Component({
@@ -25,12 +25,12 @@ export class SimulationFormComponent {
     private selectedAlgorithm: AlgorithmParameters = {
         type: this.algorithms[0].value,
         population: 20,
-        iterationsLimit: 1000,
-        steadyGenerationsLimit: 100
+        limitIterations: 1000,
+        limitSteadyGenerations: 100
     };
 
     private findAlgorithmNameByValue(value: string) {
-        return this.algorithms.find(value1 => value1.value === this.selectedAlgorithm.type).viewValue;
+        return this.algorithms.find(value1 => value1.value === value).viewValue;
     }
 
     constructor() {

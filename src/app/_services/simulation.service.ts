@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { User } from '../_models';
-import { AppComponent } from '../app.component';
-import { SimulationInfo } from '../_models/simulation-info';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {AppComponent} from '../app.component';
+import {SimulationInfo} from '../_models/simulation-info';
+import {SimulationParameters} from '../layers/layers.component';
 
 @Injectable()
 export class SimulationService {
@@ -13,10 +12,10 @@ export class SimulationService {
     getAllInfo() {
         return this.http.get<Array<SimulationInfo>[]>(AppComponent.API_URL + `/simulationinfo`);
     }
-    getById(id: number) {
-        return this.http.get<any>(AppComponent.API_URL + `/simulation/` + id);
+    getById(id: string) {
+        return this.http.get<SimulationParameters>(AppComponent.API_URL + `/simulation/` + id);
     }
-    createSimulation(model: any) {
+    createSimulation(model: SimulationParameters) {
         return this.http.post(AppComponent.API_URL + `/simulation`, model);
     }
 
