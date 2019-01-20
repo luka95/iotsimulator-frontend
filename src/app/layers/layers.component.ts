@@ -122,8 +122,7 @@ export class LayersComponent implements OnInit {
         const newLayers = [];
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
-                // console.log(value.geometry.coordinates);
-                const layer = marker((value.geometry as any).coordinates);
+                const layer = marker((value.geometry as any).coordinates.reverse());
                 const availableModules = value.properties.availableModules;
                 layer.setIcon(L.icon({
                     iconSize: [20, 24],
@@ -327,19 +326,9 @@ export class LayersComponent implements OnInit {
             }
 
             if (layer instanceof L.Marker) {
-                const point: Point = {
-                    type: 'Point',
-                    coordinates: [layer.getLatLng().lat, layer.getLatLng().lng]
-                };
-
-                const feature: Feature<Point> = {
-                    type: 'Feature',
-                    properties: l.props,
-                    geometry: point
-                };
-
-                markers.features.push(feature);
-
+                const point = layer.toGeoJSON();
+                point.properties = l.props;
+                markers.features.push(point);
             } else if (layer instanceof L.Polygon) {
                 const polygon = layer.toGeoJSON();
                 polygon.properties = l.props;
