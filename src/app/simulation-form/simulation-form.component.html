@@ -2,13 +2,7 @@
     <h5>Algorithm Properties</h5>
     <form>
         <div>
-            <label for="algorithm">Algorithm:</label>
-            <select [(ngModel)]="selectedAlgorithm" name="algorithm" id="algorithm">
-                <option *ngFor="let algorithm of algorithms" [value]="algorithm.value">
-                    {{algorithm.viewValue}}
-                </option>
-            </select><br>
-
+            <label>Algorithm: {{selectedAlgorithm.algorithm.viewValue}}</label><br>
             <div *ngIf="selectedAlgorithm.algorithm.value == 'GeneticAlgorithmModel'">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">

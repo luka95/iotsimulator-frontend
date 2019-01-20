@@ -1,15 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
 import * as L from 'leaflet';
-import {geoJSON, latLng, marker, tileLayer} from 'leaflet';
-import { SensorFormComponent } from '../sensor-form/sensor-form.component';
-import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
-import { Feature, FeatureCollection, Point } from 'geojson';
-import { CommunicationModule } from '../modules-form/modules-form.component';
+import {featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer} from 'leaflet';
+import {SensorFormComponent} from '../sensor-form/sensor-form.component';
+import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
+import {Feature, FeatureCollection, Point} from 'geojson';
+import {CommunicationModule} from '../modules-form/modules-form.component';
 import {AlgorithmParameters, SimulationFormComponent} from '../simulation-form/simulation-form.component';
-import { DomSanitizer } from '@angular/platform-browser';
-import { SimulationService } from '../_services/simulation.service';
-import { ModulesDataService } from '../_services/modules-data.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {SimulationService} from '../_services/simulation.service';
+import {ModulesDataService} from '../_services/modules-data.service';
 
 export interface SimulationParameters {
     modules: CommunicationModule[];
@@ -68,6 +68,9 @@ export class LayersComponent implements OnInit {
         'Open Topo Map': this.LAYER_OTM.layer
     };
 
+    layers: Layer[] = [];
+    editableLayers: FeatureGroup = featureGroup();
+
     numberOfLayers = 0;
 
     drawOptions = {
@@ -83,6 +86,9 @@ export class LayersComponent implements OnInit {
             polyline: true,
             circle: false,
             circlemarker: false
+        },
+        edit: {
+            featureGroup: this.editableLayers
         }
     };
 
@@ -94,29 +100,30 @@ export class LayersComponent implements OnInit {
     }
 
     applyConfiguration(configuration: SimulationParameters) {
-        this.map.eachLayer(function (layer) {
+        console.log(this.map);
+        this.map.eachLayer(layer => {
             if (layer instanceof L.Marker || layer instanceof L.Polygon || layer instanceof L.Polyline) {
-                layer.remove();
+                this.map.removeLayer(layer);
             }
         });
-
+        this.layers = []; // remove existing layers
+        console.log(this.map);
         console.log(configuration);
 
         this.simulationFormComponent.setAlgorithmParameters(configuration.algorithm);
         this.modulesDataService.updateModules(configuration.modules);
 
         this.drawPoints(configuration.points);
-        this.drawObstaclesAndNet(configuration.obstacles, '#ffcb7a');
-        this.drawObstaclesAndNet(configuration.obstacles, '#ff1c17');
-
+        this.drawObstaclesAndNet(configuration.obstacles, '#000000');
+        this.drawObstaclesAndNet(configuration.net, '#ff1c17');
     }
 
     drawPoints(featureCollection: FeatureCollection) {
+        const newLayers = [];
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
                 // console.log(value.geometry.coordinates);
                 const layer = marker((value.geometry as any).coordinates);
-
                 const availableModules = value.properties.availableModules;
                 layer.setIcon(L.icon({
                     iconSize: [20, 24],
@@ -125,21 +132,54 @@ export class LayersComponent implements OnInit {
                 }));
 
                 (layer as any).props = value.properties;
-                console.log(layer);
-
-                console.log(this.map);
+                console.log(this.layers);
+                this.editableLayers.addLayer(layer);
+                layer.options.draggable = true;
+                layer.options.clickable = true;
+                newLayers.push(layer);
                 this.map.addLayer(layer);
-                console.log(this.map);
+                console.log(this.layers);
             });
         }
+        this.layers = newLayers;
     }
 
     drawObstaclesAndNet(featureCollection: FeatureCollection, color: string) {
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
-                const layer = geoJSON(value);
+                console.log(value);
+                let layer;
+                if (value.geometry.type === 'Polygon') {
+                    const reversedCoordinates = (value.geometry as any).coordinates;
+                    const coordinates = [];
+
+                    reversedCoordinates.forEach(arr => {
+                        arr.forEach(arr2 => {
+                            coordinates.push(arr2.reverse());
+                        });
+                    });
+
+                    layer = L.polygon(coordinates);
+                } else if (value.geometry.type === 'LineString') {
+                    const reversedCoordinates = (value.geometry as any).coordinates;
+                    const coordinates = [];
+
+                    reversedCoordinates.forEach(arr => {
+                        coordinates.push(arr.reverse());
+                    });
+
+                    layer = L.polyline((value.geometry as any).coordinates);
+                } else {
+                    return;
+                }
+
+                (layer as any).props = value.properties;
                 layer.setStyle(() => ({ color: color }));
+                console.log(this.layers);
+                this.editableLayers.addLayer(layer);
+                this.layers.push(layer);
                 this.map.addLayer(layer);
+                console.log(this.layers);
             });
         }
     }
@@ -154,6 +194,7 @@ export class LayersComponent implements OnInit {
 
     onDrawCreated(event) {
         if (event.layerType === 'marker') {
+            console.log(event.layer);
             event.layer.setIcon(L.icon({
                 iconSize: [20, 24],
                 iconAnchor: [10, 24],
@@ -183,7 +224,8 @@ export class LayersComponent implements OnInit {
                 height: this.obstacleFormComponent.getHeight()
             };
         }
-
+        this.layers.push(event.layer);
+        this.map.removeLayer(event.layer);
     }
 
     getMarkerFill(id: String, loraAvailable?: boolean, xbeeAvailable?: boolean) {
@@ -258,7 +300,7 @@ export class LayersComponent implements OnInit {
     }
 
     export() {
-        const simulationParameters = this.getAllSimulationParameters();
+        const simulationParameters: SimulationParameters = this.getAllSimulationParameters();
         const data = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(simulationParameters));
         return this.sanitizer.bypassSecurityTrustUrl(data);
     }
@@ -279,6 +321,10 @@ export class LayersComponent implements OnInit {
         // extract all geometries from the map
         this.map.eachLayer(function (layer) {
             const l: any = layer;
+
+            if (l.props === undefined) {
+                return;
+            }
 
             if (layer instanceof L.Marker) {
                 const point: Point = {
@@ -305,17 +351,16 @@ export class LayersComponent implements OnInit {
             }
         });
 
-        const simulationParameters = {
-            modules: [],
-            algorithm: {},
-            points: {},
-            obstacles: {}
+        const simulationParameters: SimulationParameters = {
+            modules: this.modulesDataService.getModules(),
+            algorithm: this.simulationFormComponent.getAlgorithmParameters(),
+            points: markers,
+            obstacles: obstacles,
+            net: {
+                type: 'FeatureCollection',
+                features: []
+            }
         };
-
-        simulationParameters.algorithm = this.simulationFormComponent.getAlgorithmParameters();
-        simulationParameters.modules = this.modulesDataService.getModules();
-        simulationParameters.obstacles = obstacles;
-        simulationParameters.points = markers;
 
         return simulationParameters;
     }

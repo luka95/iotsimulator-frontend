@@ -6,12 +6,12 @@
                 (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
             </div>
             <div class="row">
-                <div class="col-md-2">
+                <div>
                     <a class="btn btn-outline-primary btn-sm" (click)="selectFile()">Import
                         configuration</a>
                     <input type="file" [hidden]="true" id="file" (change)="handleFileUpload($event)">
                 </div>
-                <div class="col-md-2">
+                <div>
                     <a class="btn btn-outline-primary btn-sm" [attr.href]="export()" download="download.json">Export
                         configuration</a>
                 </div>
