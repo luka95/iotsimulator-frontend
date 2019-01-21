@@ -125,7 +125,6 @@ export class SimulationComponent implements OnInit {
         console.log(configuration);
 
         this.simulationFormComponent.setAlgorithmParameters(configuration.algorithm);
-        this.modulesDataService.updateModules(configuration.modules);
 
         this.drawPoints(configuration.points);
         this.drawObstaclesAndNet(configuration.obstacles, '#000000');

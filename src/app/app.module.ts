@@ -10,6 +10,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { PaginationModule } from 'ng2-bootstrap/pagination';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { SimulationFormComponent } from './simulation-form/simulation-form.compo
 import { ModulesFormComponent } from './modules-form/modules-form.component';
 import { SimulationsComponent } from './simulations/simulations.component';
 import { SimulationComponent } from './simulation/simulation.component';
+import { DeleteConfirmComponent } from './modals/delete-confirm/delete-confirm.component'
 
 
 @NgModule({
@@ -37,12 +39,15 @@ import { SimulationComponent } from './simulation/simulation.component';
         SimulationFormComponent,
         ModulesFormComponent,
         SimulationsComponent,
-        SimulationComponent
+        SimulationComponent,
+        DeleteConfirmComponent,
+
     ],
     imports: [
         LeafletModule.forRoot(),
         LeafletDrawModule.forRoot(),
         PaginationModule.forRoot(),
+        NgbModule.forRoot(),
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
@@ -70,7 +75,11 @@ import { SimulationComponent } from './simulation/simulation.component';
     ],
     bootstrap: [
         AppComponent
+    ],
+    entryComponents: [
+        DeleteConfirmComponent
     ]
+
 })
 export class AppModule {
 }

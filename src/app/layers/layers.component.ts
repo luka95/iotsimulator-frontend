@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import {featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer} from 'leaflet';
-import {SensorFormComponent} from '../sensor-form/sensor-form.component';
-import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
-import {FeatureCollection} from 'geojson';
-import {CommunicationModule} from '../modules-form/modules-form.component';
-import {AlgorithmParameters, SimulationFormComponent} from '../simulation-form/simulation-form.component';
-import {DomSanitizer} from '@angular/platform-browser';
-import {ModulesDataService, SimulationService} from '../_services';
+import { featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer } from 'leaflet';
+import { SensorFormComponent } from '../sensor-form/sensor-form.component';
+import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
+import { FeatureCollection } from 'geojson';
+import { CommunicationModule } from '../modules-form/modules-form.component';
+import { AlgorithmParameters, SimulationFormComponent } from '../simulation-form/simulation-form.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ModulesDataService, SimulationService } from '../_services';
 
 export interface SimulationParameters {
     modules: CommunicationModule[];
@@ -32,8 +32,8 @@ export class LayersComponent implements OnInit {
     loading = false;
 
     constructor(private sanitizer: DomSanitizer,
-                private simulationService: SimulationService,
-                private modulesDataService: ModulesDataService) {
+        private simulationService: SimulationService,
+        private modulesDataService: ModulesDataService) {
     }
 
     LAYER_OTM = {
@@ -110,7 +110,6 @@ export class LayersComponent implements OnInit {
         console.log(configuration);
 
         this.simulationFormComponent.setAlgorithmParameters(configuration.algorithm);
-        this.modulesDataService.updateModules(configuration.modules);
 
         this.drawPoints(configuration.points);
         this.drawObstaclesAndNet(configuration.obstacles, '#000000');
@@ -289,11 +288,9 @@ export class LayersComponent implements OnInit {
             .subscribe(
                 data => {
                     this.loading = false;
-                    console.log(data);
                 },
                 error => {
                     this.loading = false;
-                    console.log(error);
                 });
     }
 

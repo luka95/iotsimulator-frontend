@@ -24,5 +24,6 @@ export class ModulesFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.modules = this.modulesDataService.getModules();
+        console.log("NGONINIT", this.modules);
     }
 }

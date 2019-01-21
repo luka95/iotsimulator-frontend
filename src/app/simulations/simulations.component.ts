@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { SimulationService } from '../_services';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteConfirmComponent } from '../modals/delete-confirm/delete-confirm.component';
 
 
 @Component({
@@ -14,7 +16,8 @@ export class SimulationsComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private simulationService: SimulationService) {
+        private simulationService: SimulationService,
+        private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -24,6 +27,7 @@ export class SimulationsComponent implements OnInit {
         this.simulationService.getAllInfo()
             .subscribe(
                 data => {
+                    console.log("LOADING DATA", data);
                     this.source = new LocalDataSource();
                     this.source.load(data);
                 },
@@ -35,7 +39,18 @@ export class SimulationsComponent implements OnInit {
 
     settings = {
         mode: "external",
-        actions: false,
+        actions: {
+            position: 'right',
+            add: false,
+            edit: false,
+            delete: true,
+            custom: [
+                {
+                    name: 'details',
+                    title: '<span class="action-button">Details</span>',
+                },
+            ]
+        },
         columns: {
             id: {
                 title: 'Id',
@@ -71,5 +86,21 @@ export class SimulationsComponent implements OnInit {
     onSelect(event): void {
         this.router.navigateByUrl('/simulations/' + event.data.id);
     };
+    onCustom(event) {
+        this.router.navigateByUrl('/simulations/' + event.data.id);
+    }
+    onDelete(event): void {
+        const modalRef = this.modalService.open(DeleteConfirmComponent);
 
+        modalRef.componentInstance.data = event.data;
+        modalRef.componentInstance.deleteEvent.subscribe(($e) => {
+            this.simulationService.delete($e.id).subscribe(data => {
+                this.loadData();
+                this.modalService.dismissAll();
+            }, err => {
+                this.loadData();
+                this.modalService.dismissAll();
+            });
+        });
+    }
 }

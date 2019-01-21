@@ -1,4 +1,5 @@
 <div class="container">
-  <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onSelect($event)">
+  <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onSelect($event)" (custom)="onCustom($event)"
+    (delete)="onDelete($event)">
   </ng2-smart-table>
 </div>
