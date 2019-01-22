@@ -79,7 +79,8 @@ export class LayersComponent implements OnInit {
                 icon: L.icon({
                     iconSize: [20, 24],
                     iconAnchor: [10, 24],
-                    iconUrl: this.getMarkerIcon()
+                    iconUrl: this.getMarkerIcon(),
+                    popupAnchor: [0, -24]
                 })
             },
             polyline: true,
@@ -125,10 +126,12 @@ export class LayersComponent implements OnInit {
                 layer.setIcon(L.icon({
                     iconSize: [20, 24],
                     iconAnchor: [10, 24],
-                    iconUrl: this.getMarkerIcon(availableModules.includes(0), availableModules.includes(1))
+                    iconUrl: this.getMarkerIcon(availableModules.includes(0), availableModules.includes(1)),
+                    popupAnchor: [0, -24]
                 }));
 
                 (layer as any).props = value.properties;
+                layer.bindPopup(this.getSensorPopupContent((layer as any).props));
                 console.log(this.layers);
                 this.editableLayers.addLayer(layer);
                 layer.options.draggable = true;
@@ -157,6 +160,7 @@ export class LayersComponent implements OnInit {
                     });
 
                     layer = L.polygon(coordinates);
+                    layer.bindPopup(this.getObstaclePopupContent(value.properties));
                 } else if (value.geometry.type === 'LineString') {
                     const reversedCoordinates = (value.geometry as any).coordinates;
                     const coordinates = [];
@@ -195,7 +199,8 @@ export class LayersComponent implements OnInit {
             event.layer.setIcon(L.icon({
                 iconSize: [20, 24],
                 iconAnchor: [10, 24],
-                iconUrl: this.getMarkerIcon()
+                iconUrl: this.getMarkerIcon(),
+                popupAnchor: [0, -24]
             }));
 
             const availableModules = [];
@@ -214,15 +219,32 @@ export class LayersComponent implements OnInit {
                 modulesOn: [],
                 batteryPercentage: this.sensorFormComponent.getBatteryStatus()
             };
+            event.layer.bindPopup(this.getSensorPopupContent(event.layer.props));
 
         } else {
             event.layer.props = {
                 communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage(),
                 height: this.obstacleFormComponent.getHeight()
             };
+            event.layer.bindPopup(this.getObstaclePopupContent(event.layer.props));
         }
         this.layers.push(event.layer);
         this.map.removeLayer(event.layer);
+    }
+
+    getSensorPopupContent(props: any): string {
+        return L.Util.template(
+            '<p>id:{id}<br>' +
+            'available modules: [{availableModules}]<br>' +
+            'modules on: [{modulesOn}]<br>' +
+            'battery percentage: {batteryPercentage}<br>' +
+            '</p>', props);
+    }
+
+    getObstaclePopupContent(props: any): string {
+        return L.Util.template(
+            '<p>communication efficiency :{communicationEfficiencyPercentage}%<br>' +
+            'height: {height}</p>', props);
     }
 
     getMarkerFill(id: String, loraAvailable?: boolean, xbeeAvailable?: boolean): string {
