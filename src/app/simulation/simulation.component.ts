@@ -33,6 +33,8 @@ export class SimulationComponent implements OnInit {
     map: any;
     loading: boolean = false;
     simId: string;
+    data: any;
+    showReport: boolean = true;
 
     isAlgorithmPropertiesDisabled: boolean = true;
     isSensorPropertiesDisabled: boolean = true;
@@ -112,6 +114,7 @@ export class SimulationComponent implements OnInit {
             .subscribe(
                 data => {
                     this.applyConfiguration(data);
+                    this.data = data;
                 }, error => {
                     console.log(error);
                 }
@@ -397,5 +400,6 @@ export class SimulationComponent implements OnInit {
         this.isSensorPropertiesDisabled = false;
         this.isObstacleFormDisabled = false;
         this.isStartSimulationButtonDisabled = false;
+        this.showReport = false;
     }
 }

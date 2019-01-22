@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <h5>Report</h5>
+    <form>
+        <fieldset [disabled]="isDisabled">
+            <div>
+                <label>Simulation: {{report.simulationId}}</label><br>
+                <div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="evaluator-prepend">Evaluator</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="evaluator" aria-describedby="evaluator-prepend"
+                            name="evaluator" id="evaluator" [(ngModel)]="report.evaluatorName">
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="fitness-prepend">Fitness</span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="fitness" aria-describedby="fitness-prepend"
+                            name="fitness" id="fitness" [(ngModel)]="report.fitness">
+                    </div>
+
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="limitIterations-prepend">Validity</span>
+                        </div>
+                        <input type="boolean" class="form-control" aria-label="valid" aria-describedby="valid-prepend"
+                            name="valid" id="valid" [(ngModel)]="report.valid">
+                    </div>
+
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="disconnectedNodes-prepend">Disconnected Nodes</span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="disconnectedNodes" aria-describedby="disconnectedNodes-prepend"
+                            name="disconnectedNodes" id="disconnectedNodes" [(ngModel)]="report.disconnectedNodes">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

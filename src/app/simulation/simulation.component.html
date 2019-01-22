@@ -11,6 +11,13 @@
                         configuration</a>
                 </div>
             </div>
+            <div class="row" *ngIf="data && showReport" style="margin-top:10px">
+                <div class="col-md-4">
+                    <div class="card">
+                        <app-report-form [report]="data.report"></app-report-form>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <div class="col-md-4">

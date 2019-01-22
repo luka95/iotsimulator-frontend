@@ -24,7 +24,8 @@ import { SimulationFormComponent } from './simulation-form/simulation-form.compo
 import { ModulesFormComponent } from './modules-form/modules-form.component';
 import { SimulationsComponent } from './simulations/simulations.component';
 import { SimulationComponent } from './simulation/simulation.component';
-import { DeleteConfirmComponent } from './modals/delete-confirm/delete-confirm.component'
+import { DeleteConfirmComponent } from './modals/delete-confirm/delete-confirm.component';
+import { ReportComponent } from './report/report.component';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { DeleteConfirmComponent } from './modals/delete-confirm/delete-confirm.c
         SimulationsComponent,
         SimulationComponent,
         DeleteConfirmComponent,
-
+        ReportComponent,
     ],
     imports: [
         LeafletModule.forRoot(),
@@ -64,6 +65,7 @@ import { DeleteConfirmComponent } from './modals/delete-confirm/delete-confirm.c
         ModulesFormComponent,
         LayersComponent,
         SimulationsComponent,
+        ReportComponent,
 
         AuthenticationService,
         UserService,
