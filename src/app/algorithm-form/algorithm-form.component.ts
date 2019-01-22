@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Algorithm, AlgorithmParameters} from '../_models';
+import { Algorithm, AlgorithmParameters } from '../_models';
 
 
 @Component({
@@ -10,28 +10,35 @@ export class AlgorithmFormComponent {
     @Input() isDisabled: boolean;
 
     algorithms: Algorithm[] = [
-        { value: 'GeneticAlgorithmModel', viewValue: 'Genetic algorithm' }
+        {
+            value: 'GeneticAlgorithmModel',
+            viewValue: 'Genetic algorithm',
+            params: {
+                type: 'GeneticAlgorithmModel',
+                population: 20,
+                limitIterations: 1000,
+                limitSteadyGenerations: 100
+            }
+        },
+        {
+            value: 'ClusteringAlgorithmModel',
+            viewValue: 'Static clustering algorithm',
+            params: {
+                type: 'ClusteringAlgorithmModel'
+            }
+        }
     ];
 
-    private selectedAlgorithm: AlgorithmParameters = {
-        type: this.algorithms[0].value,
-        population: 20,
-        limitIterations: 1000,
-        limitSteadyGenerations: 100
-    };
-
-    private findAlgorithmNameByValue(value: string) {
-        return this.algorithms.find(value1 => value1.value === value).viewValue;
-    }
+    private selectedAlgorithm: Algorithm = this.algorithms[0];
 
     constructor() {
     }
 
     getAlgorithmParameters(): AlgorithmParameters {
-        return this.selectedAlgorithm;
+        return this.selectedAlgorithm.params;
     }
 
     setAlgorithmParameters(algorithmParameters: AlgorithmParameters) {
-        this.selectedAlgorithm = algorithmParameters;
+        this.selectedAlgorithm.params = algorithmParameters;
     }
 }

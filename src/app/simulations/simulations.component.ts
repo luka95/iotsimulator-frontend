@@ -41,6 +41,10 @@ export class SimulationsComponent implements OnInit {
                 title: 'Id',
                 type: 'string'
             },
+            algorithmName: {
+                title: 'Algorithm',
+                type: 'string'
+            },
             simulationStart: {
                 title: 'Simulation Start',
                 type: 'date',
@@ -97,6 +101,19 @@ export class SimulationsComponent implements OnInit {
         modalRef.componentInstance.data = event.data;
         modalRef.componentInstance.deleteEvent.subscribe(($e) => {
             this.simulationService.delete($e.id).subscribe(data => {
+                this.loadData();
+                this.modalService.dismissAll();
+            }, err => {
+                this.loadData();
+                this.modalService.dismissAll();
+            });
+        });
+    }
+    deleteAll(): void {
+        const modalRef = this.modalService.open(DeleteConfirmComponent);
+
+        modalRef.componentInstance.deleteEvent.subscribe(($e) => {
+            this.simulationService.deleteAll().subscribe(data => {
                 this.loadData();
                 this.modalService.dismissAll();
             }, err => {

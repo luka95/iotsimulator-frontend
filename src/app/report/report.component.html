@@ -5,6 +5,13 @@
             <div>
                 <label>Simulation: {{report.simulationId}}</label><br>
                 <div>
+                        <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="algorithm-prepend">Algorithm</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="algorithm" aria-describedby="algorithm-prepend"
+                                    name="algorithm" id="algorithm" [(ngModel)]="report.algorithmName">
+                            </div>
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="evaluator-prepend">Evaluator</span>
@@ -28,7 +35,7 @@
                             name="valid" id="valid" [(ngModel)]="report.valid">
                     </div>
 
-                    <div class="input-group input-group-sm mb-3">
+                    <div class="input-group has-error input-group-sm mb-3" *ngIf="report.disconnectedNodes && report.disconnectedNodes.length > 0">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="disconnectedNodes-prepend">Disconnected Nodes</span>
                         </div>

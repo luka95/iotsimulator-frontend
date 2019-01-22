@@ -24,4 +24,7 @@ export class SimulationService {
     delete(id: number) {
         return this.http.delete(AppComponent.API_URL + `/simulation/` + id);
     }
+    deleteAll() {
+        return this.http.delete(AppComponent.API_URL + `/simulation`);
+    }
 }
