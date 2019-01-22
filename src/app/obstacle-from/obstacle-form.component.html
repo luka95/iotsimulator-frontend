@@ -1,26 +1,27 @@
 <div class="container-fluid">
     <h5>Obstacle Properties</h5>
     <form>
-        <div>
+        <fieldset [disabled]="isDisabled">
+            <div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="efficiency-prepend">Communication efficiency in area</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="efficiency" aria-describedby="efficiency-prepend"
+                        value="100" max="100" min="0" name="efficiency" id="efficiency" [(ngModel)]="communicationEfficiencyPercentage">
+                </div>
+            </div>
+
             <div class="input-group input-group-sm mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="efficiency-prepend">Communication efficiency in area</span>
+                    <span class="input-group-text">Obstacle height</span>
                 </div>
-                <input type="number" class="form-control" aria-label="efficiency" aria-describedby="efficiency-prepend"
-                       value="100" max="100" min="0" name="efficiency" id="efficiency"
-                       [(ngModel)]="communicationEfficiencyPercentage">
+                <input type="number" class="form-control" aria-label="height" aria-describedby="height-prepend" value="0"
+                    min="0" name="height" id="height" [(ngModel)]="height">
+                <div class="input-group-append">
+                    <span class="input-group-text">meters</span>
+                </div>
             </div>
-        </div>
-
-        <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Obstacle height</span>
-            </div>
-            <input type="number" class="form-control" aria-label="height" aria-describedby="height-prepend"
-                   value="0" min="0" name="height" id="height" [(ngModel)]="height">
-            <div class="input-group-append">
-                <span class="input-group-text">meters</span>
-            </div>
-        </div>
+        </fieldset>
     </form>
 </div>

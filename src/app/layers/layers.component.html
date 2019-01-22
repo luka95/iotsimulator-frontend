@@ -7,7 +7,7 @@
             </div>
             <div class="row">
                 <div>
-                    <a class="btn btn-outline-primary btn-sm" (click)="selectFile()">Import
+                    <a class="btn btn-outline-primary btn-sm" href="" (click)="selectFile()">Import
                         configuration</a>
                     <input type="file" [hidden]="true" id="file" (change)="handleFileUpload($event)">
                 </div>
@@ -20,13 +20,13 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <app-simulation-form></app-simulation-form>
+                <app-simulation-form [isDisabled]="false"></app-simulation-form>
             </div>
             <div class="card">
-                <app-sensor-form></app-sensor-form>
+                <app-sensor-form [isDisabled]="false"></app-sensor-form>
             </div>
             <div class="card">
-                <app-obstacle-form></app-obstacle-form>
+                <app-obstacle-form [isDisabled]="false"></app-obstacle-form>
             </div>
             <div class="container-fluid">
                 <div class="form-group">

@@ -1,16 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import {featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer} from 'leaflet';
-import {SensorFormComponent} from '../sensor-form/sensor-form.component';
-import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
-import {FeatureCollection} from 'geojson';
-import {CommunicationModule} from '../modules-form/modules-form.component';
-import {AlgorithmParameters, SimulationFormComponent} from '../simulation-form/simulation-form.component';
-import {DomSanitizer} from '@angular/platform-browser';
-import {ModulesDataService, SimulationService} from '../_services';
-import {ActivatedRoute} from '@angular/router';
-import {LayersComponent} from '../layers/layers.component';
+import { featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer } from 'leaflet';
+import { SensorFormComponent } from '../sensor-form/sensor-form.component';
+import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
+import { FeatureCollection } from 'geojson';
+import { CommunicationModule } from '../modules-form/modules-form.component';
+import { AlgorithmParameters, SimulationFormComponent } from '../simulation-form/simulation-form.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ModulesDataService, SimulationService } from '../_services';
+import { ActivatedRoute } from '@angular/router';
+import { LayersComponent } from '../layers/layers.component';
 
 export interface SimulationParameters {
     modules: CommunicationModule[];
@@ -21,8 +21,8 @@ export interface SimulationParameters {
 }
 
 @Component({
-    selector: 'app-layers',
-    templateUrl: '../layers/layers.component.html'
+    selector: 'simulation',
+    templateUrl: './simulation.component.html'
 })
 export class SimulationComponent implements OnInit {
 
@@ -34,12 +34,18 @@ export class SimulationComponent implements OnInit {
     loading: boolean = false;
     simId: string;
 
+    isAlgorithmPropertiesDisabled: boolean = true;
+    isSensorPropertiesDisabled: boolean = true;
+    isObstacleFormDisabled: boolean = true;
+    isStartSimulationButtonDisabled: boolean = true;
+    isEditSimulationButtonDisabled: boolean = false;
+
     constructor(private sanitizer: DomSanitizer,
-                public activatedRouter: ActivatedRoute,
-                private simulationService: SimulationService,
-                private modulesDataService: ModulesDataService) {
+        public activatedRouter: ActivatedRoute,
+        private simulationService: SimulationService,
+        private modulesDataService: ModulesDataService) {
         this.simId = this.activatedRouter.snapshot.params['id'];
-        console.log(this.simId);
+
     }
 
     LAYER_OTM = {
@@ -146,6 +152,7 @@ export class SimulationComponent implements OnInit {
                 }));
 
                 (layer as any).props = value.properties;
+                layer.bindPopup(this.getSensorPopupContent((layer as any).props));
                 console.log(this.layers);
                 this.editableLayers.addLayer(layer);
                 layer.options.draggable = true;
@@ -174,6 +181,7 @@ export class SimulationComponent implements OnInit {
                     });
 
                     layer = L.polygon(coordinates);
+                    layer.bindPopup(this.getObstaclePopupContent(value.properties));
                 } else if (value.geometry.type === 'LineString') {
                     const reversedCoordinates = (value.geometry as any).coordinates;
                     const coordinates = [];
@@ -239,6 +247,21 @@ export class SimulationComponent implements OnInit {
         }
         this.layers.push(event.layer);
         this.map.removeLayer(event.layer);
+    }
+
+    getSensorPopupContent(props: any): string {
+        return L.Util.template(
+            '<p>id:{id}<br>' +
+            'available modules: [{availableModules}]<br>' +
+            'modules on: [{modulesOn}]<br>' +
+            'battery percentage: {batteryPercentage}<br>' +
+            '</p>', props);
+    }
+
+    getObstaclePopupContent(props: any): string {
+        return L.Util.template(
+            '<p>communication efficiency :{communicationEfficiencyPercentage}%<br>' +
+            'height: {height}</p>', props);
     }
 
     getMarkerFill(id: String, loraAvailable?: boolean, loraActive?: boolean, xbeeAvailable?: boolean, xbeeActive?: boolean) {
@@ -371,5 +394,13 @@ export class SimulationComponent implements OnInit {
         };
 
         return simulationParameters;
+    }
+
+    enableEditing() {
+        this.isEditSimulationButtonDisabled = true;
+        this.isAlgorithmPropertiesDisabled = false;
+        this.isSensorPropertiesDisabled = false;
+        this.isObstacleFormDisabled = false;
+        this.isStartSimulationButtonDisabled = false;
     }
 }

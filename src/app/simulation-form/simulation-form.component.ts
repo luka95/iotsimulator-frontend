@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 export interface Algorithm {
     value: string;
@@ -17,6 +17,7 @@ export interface AlgorithmParameters {
     templateUrl: './simulation-form.component.html'
 })
 export class SimulationFormComponent {
+    @Input() isDisabled: boolean;
 
     algorithms: Algorithm[] = [
         {value: 'GeneticAlgorithmModel', viewValue: 'Genetic algorithm'}

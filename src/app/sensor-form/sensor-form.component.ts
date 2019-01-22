@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'app-sensor-form',
     templateUrl: './sensor-form.component.html'
 })
 export class SensorFormComponent {
+    @Input() isDisabled: boolean;
 
     loraWanSelected = true;
     xbeeSelected = true;

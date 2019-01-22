@@ -1,40 +1,37 @@
 <div class="container-fluid">
     <h5>Algorithm Properties</h5>
     <form>
-        <div>
-            <label>Algorithm: {{findAlgorithmNameByValue(selectedAlgorithm.type)}}</label><br>
-            <div *ngIf="selectedAlgorithm.type == 'GeneticAlgorithmModel'">
-                <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="population-prepend">Population size</span>
-                    </div>
-                    <input type="number" class="form-control" aria-label="population"
-                           aria-describedby="population-prepend"
-                           value="20" max="100" min="20" name="population" id="population"
-                           [(ngModel)]="selectedAlgorithm.population">
-                </div>
+        <fieldset [disabled]="isDisabled">
 
-                <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="iterationsLimit-prepend">Iterations limit</span>
+            <div>
+                <label>Algorithm: {{findAlgorithmNameByValue(selectedAlgorithm.type)}}</label><br>
+                <div *ngIf="selectedAlgorithm.type == 'GeneticAlgorithmModel'">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="population-prepend">Population size</span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="population" aria-describedby="population-prepend"
+                            value="20" max="100" min="20" name="population" id="population" [(ngModel)]="selectedAlgorithm.population">
                     </div>
-                    <input type="number" class="form-control" aria-label="population"
-                           aria-describedby="iterationsLimit-prepend"
-                           value="100" max="10000" min="0" name="iterationsLimit" id="iterationsLimit"
-                           [(ngModel)]="selectedAlgorithm.iterationsLimit">
-                </div>
 
-                <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"
-                              id="steadyGenerationsLimit-prepend">Steady generations limit</span>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="limitIterations-prepend">Iterations limit</span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="population" aria-describedby="limitIterations-prepend"
+                            value="100" max="10000" min="0" name="limitIterations" id="limitIterations" [(ngModel)]="selectedAlgorithm.limitIterations">
                     </div>
-                    <input type="number" class="form-control" aria-label="steadyGenerationsLimit"
-                           aria-describedby="steadyGenerationsLimit-prepend"
-                           value="20" max="10000" min="0" name="steadyGenerationsLimit" id="steadyGenerationsLimit"
-                           [(ngModel)]="selectedAlgorithm.steadyGenerationsLimit">
+
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="limitSteadyGenerations-prepend">Steady generations limit</span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="limitSteadyGenerations" aria-describedby="limitSteadyGenerations-prepend"
+                            value="20" max="10000" min="0" name="limitSteadyGenerations" id="limitSteadyGenerations"
+                            [(ngModel)]="selectedAlgorithm.limitSteadyGenerations">
+                    </div>
                 </div>
             </div>
-        </div>
+        </fieldset>
     </form>
 </div>
