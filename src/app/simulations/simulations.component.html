@@ -4,7 +4,8 @@
   <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onSelect($event)" (custom)="onCustom($event)"
     (delete)="onDelete($event)">
   </ng2-smart-table>
-
-  <button type="button" class="btn btn-danger" (click)="deleteAll()">Delete All</button>
+  <div class="float-right">
+    <button type="button" class="btn btn-danger" (click)="deleteAll()">Delete All</button>
+  </div>
 
 </div>
