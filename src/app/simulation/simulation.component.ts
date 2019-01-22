@@ -5,20 +5,12 @@ import { featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer } from 'le
 import { SensorFormComponent } from '../sensor-form/sensor-form.component';
 import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
 import { FeatureCollection } from 'geojson';
-import { CommunicationModule } from '../modules-form/modules-form.component';
-import { AlgorithmParameters, SimulationFormComponent } from '../simulation-form/simulation-form.component';
+import { AlgorithmFormComponent } from '../algorithm-form/algorithm-form.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModulesDataService, SimulationService } from '../_services';
 import { ActivatedRoute } from '@angular/router';
 import { LayersComponent } from '../layers/layers.component';
-
-export interface SimulationParameters {
-    modules: CommunicationModule[];
-    algorithm: AlgorithmParameters;
-    points: FeatureCollection;
-    obstacles: FeatureCollection;
-    net: FeatureCollection;
-}
+import { SimulationParameters} from '../_models';
 
 @Component({
     selector: 'simulation',
@@ -28,19 +20,19 @@ export class SimulationComponent implements OnInit {
 
     @ViewChild(SensorFormComponent) sensorFormComponent;
     @ViewChild(ObstacleFormComponent) obstacleFormComponent;
-    @ViewChild(SimulationFormComponent) simulationFormComponent;
+    @ViewChild(AlgorithmFormComponent) simulationFormComponent;
 
     map: any;
-    loading: boolean = false;
+    loading = false;
     simId: string;
     data: any;
-    showReport: boolean = true;
+    showReport = true;
 
-    isAlgorithmPropertiesDisabled: boolean = true;
-    isSensorPropertiesDisabled: boolean = true;
-    isObstacleFormDisabled: boolean = true;
-    isStartSimulationButtonDisabled: boolean = true;
-    isEditSimulationButtonDisabled: boolean = false;
+    isAlgorithmPropertiesDisabled = true;
+    isSensorPropertiesDisabled = true;
+    isObstacleFormDisabled = true;
+    isStartSimulationButtonDisabled = true;
+    isEditSimulationButtonDisabled = false;
 
     constructor(private sanitizer: DomSanitizer,
         public activatedRouter: ActivatedRoute,
@@ -187,7 +179,7 @@ export class SimulationComponent implements OnInit {
                     });
 
                     layer = L.polyline((value.geometry as any).coordinates);
-                    var mColor = this.modulesDataService.getColorByModuleId(value.properties.module)
+                    const mColor = this.modulesDataService.getColorByModuleId(value.properties.module);
                     layer.setStyle({
                         color: mColor
                     });

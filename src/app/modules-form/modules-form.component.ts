@@ -1,15 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModulesDataService } from '../_services/modules-data.service';
+import { CommunicationModule } from '../_models/communication-module';
 
-export interface CommunicationModule {
-    id: number;
-    name: string;
-    energySending: number;
-    energyReceiving: number;
-    energyIdle: number;
-    range: number;
-    color: string;
-}
 
 @Component({
     selector: 'app-modules-form',

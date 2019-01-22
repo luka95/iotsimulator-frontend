@@ -1,26 +1,16 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import {Algorithm, AlgorithmParameters} from '../_models';
 
-export interface Algorithm {
-    value: string;
-    viewValue: string;
-}
-
-export interface AlgorithmParameters {
-    type: string;
-    population?: number;
-    limitIterations?: number;
-    limitSteadyGenerations?: number;
-}
 
 @Component({
     selector: 'app-simulation-form',
-    templateUrl: './simulation-form.component.html'
+    templateUrl: './algorithm-form.component.html'
 })
-export class SimulationFormComponent {
+export class AlgorithmFormComponent {
     @Input() isDisabled: boolean;
 
     algorithms: Algorithm[] = [
-        {value: 'GeneticAlgorithmModel', viewValue: 'Genetic algorithm'}
+        { value: 'GeneticAlgorithmModel', viewValue: 'Genetic algorithm' }
     ];
 
     private selectedAlgorithm: AlgorithmParameters = {

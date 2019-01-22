@@ -1,10 +1,10 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { SimulationService } from '../_services';
-import { LocalDataSource } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteConfirmComponent } from '../modals/delete-confirm/delete-confirm.component';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocalDataSource } from 'ng2-smart-table';
+import { DeleteConfirmComponent } from '../_modals/delete-confirm/delete-confirm.component';
+import { SimulationService } from '../_services';
 
 
 @Component({
@@ -12,7 +12,6 @@ import { DeleteConfirmComponent } from '../modals/delete-confirm/delete-confirm.
     styleUrls: ['simulations.component.scss']
 })
 export class SimulationsComponent implements OnInit {
-    source = new LocalDataSource();
 
     constructor(
         private router: Router,
@@ -20,25 +19,11 @@ export class SimulationsComponent implements OnInit {
         private modalService: NgbModal) {
     }
 
-    ngOnInit() {
-        this.loadData();
-    }
-    loadData() {
-        this.simulationService.getAllInfo()
-            .subscribe(
-                data => {
-                    console.log("LOADING DATA", data);
-                    this.source = new LocalDataSource();
-                    this.source.load(data);
-                },
-                error => {
-                    console.log(error);
-                });
-    }
+    source = new LocalDataSource();
 
 
     settings = {
-        mode: "external",
+        mode: 'external',
         actions: {
             position: 'right',
             add: false,
@@ -60,7 +45,7 @@ export class SimulationsComponent implements OnInit {
                 title: 'Simulation Start',
                 type: 'date',
                 valuePrepareFunction: (date) => {
-                    var formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
+                    const formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
                     return formatted;
                 },
             },
@@ -68,7 +53,7 @@ export class SimulationsComponent implements OnInit {
                 title: 'Simulation End',
                 type: 'date',
                 valuePrepareFunction: (date) => {
-                    var formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
+                    const formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
                     return formatted;
                 },
             },
@@ -83,10 +68,27 @@ export class SimulationsComponent implements OnInit {
         }
     };
 
+    ngOnInit() {
+        this.loadData();
+    }
+    loadData() {
+        this.simulationService.getAllInfo()
+            .subscribe(
+                data => {
+                    console.log('LOADING DATA', data);
+                    this.source = new LocalDataSource();
+                    this.source.load(data);
+                },
+                error => {
+                    console.log(error);
+                });
+    }
+
     onSelect(event): void {
-        this.router.navigateByUrl('/simulations/' + event.data.id);
-    };
-    onCustom(event) {
+        if (event.data.isCompleted) {
+            this.router.navigateByUrl('/simulations/' + event.data.id);
+        }
+    }    onCustom(event) {
         this.router.navigateByUrl('/simulations/' + event.data.id);
     }
     onDelete(event): void {

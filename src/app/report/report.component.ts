@@ -5,6 +5,6 @@ import { Component, Input } from '@angular/core';
     templateUrl: './report.component.html'
 })
 export class ReportComponent {
-    @Input() isDisabled: boolean = true;
+    @Input() isDisabled = true;
     @Input() report: any;
 }

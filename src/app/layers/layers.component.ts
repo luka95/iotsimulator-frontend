@@ -5,18 +5,11 @@ import { featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer } from 'le
 import { SensorFormComponent } from '../sensor-form/sensor-form.component';
 import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
 import { FeatureCollection } from 'geojson';
-import { CommunicationModule } from '../modules-form/modules-form.component';
-import { AlgorithmParameters, SimulationFormComponent } from '../simulation-form/simulation-form.component';
+import { AlgorithmFormComponent } from '../algorithm-form/algorithm-form.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SimulationParameters } from '../_models';
 import { ModulesDataService, SimulationService } from '../_services';
 
-export interface SimulationParameters {
-    modules: CommunicationModule[];
-    algorithm: AlgorithmParameters;
-    points: FeatureCollection;
-    obstacles: FeatureCollection;
-    net: FeatureCollection;
-}
 
 @Component({
     selector: 'app-layers',
@@ -26,7 +19,7 @@ export class LayersComponent implements OnInit {
 
     @ViewChild(SensorFormComponent) sensorFormComponent;
     @ViewChild(ObstacleFormComponent) obstacleFormComponent;
-    @ViewChild(SimulationFormComponent) simulationFormComponent;
+    @ViewChild(AlgorithmFormComponent) simulationFormComponent;
 
     map: any;
     loading = false;
@@ -163,7 +156,7 @@ export class LayersComponent implements OnInit {
                     });
 
                     layer = L.polyline((value.geometry as any).coordinates);
-                    var mColor = this.modulesDataService.getColorByModuleId(value.properties.module)
+                    const mColor = this.modulesDataService.getColorByModuleId(value.properties.module);
                     layer.setStyle({
                         color: mColor
                     });

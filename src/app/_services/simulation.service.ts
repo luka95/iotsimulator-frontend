@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {AppComponent} from '../app.component';
-import {SimulationInfo} from '../_models/simulation-info';
-import {SimulationParameters} from '../layers/layers.component';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AppComponent } from '../app.component';
+import { SimulationInfo, SimulationParameters } from '../_models';
 
 @Injectable()
 export class SimulationService {

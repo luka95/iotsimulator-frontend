@@ -10,7 +10,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { PaginationModule } from 'ng2-bootstrap/pagination';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { AppComponent } from './app.component';
@@ -20,11 +20,11 @@ import { LayersComponent } from './layers/layers.component';
 import { ErrorInterceptor, JwtInterceptor } from './_helpers';
 import { AuthGuard } from './_guards';
 import { ObstacleFormComponent } from './obstacle-from/obstacle-form.component';
-import { SimulationFormComponent } from './simulation-form/simulation-form.component';
+import { AlgorithmFormComponent } from './algorithm-form/algorithm-form.component';
 import { ModulesFormComponent } from './modules-form/modules-form.component';
 import { SimulationsComponent } from './simulations/simulations.component';
 import { SimulationComponent } from './simulation/simulation.component';
-import { DeleteConfirmComponent } from './modals/delete-confirm/delete-confirm.component';
+import { DeleteConfirmComponent } from './_modals/delete-confirm/delete-confirm.component';
 import { ReportComponent } from './report/report.component';
 
 
@@ -37,7 +37,7 @@ import { ReportComponent } from './report/report.component';
         RegisterComponent,
         HeaderComponent,
         ObstacleFormComponent,
-        SimulationFormComponent,
+        AlgorithmFormComponent,
         ModulesFormComponent,
         SimulationsComponent,
         SimulationComponent,
@@ -61,7 +61,7 @@ import { ReportComponent } from './report/report.component';
 
         SensorFormComponent,
         ObstacleFormComponent,
-        SimulationFormComponent,
+        AlgorithmFormComponent,
         ModulesFormComponent,
         LayersComponent,
         SimulationsComponent,

@@ -4,7 +4,7 @@ import { RegisterComponent } from './register';
 import { SimulationsComponent } from './simulations';
 import { SimulationComponent } from './simulation';
 import { LayersComponent } from './layers/layers.component';
-import { ModulesFormComponent } from './modules-form/modules-form.component'
+import { ModulesFormComponent } from './modules-form/modules-form.component';
 
 import { AuthGuard } from './_guards';
 

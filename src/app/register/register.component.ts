@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from '../_models';
 import { UserService } from '../_services';
 
@@ -38,12 +38,12 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        let user = new User();
+        const user = new User();
         user.username = this.registerForm.value.username;
         user.password = this.registerForm.value.password;
 
         this.userService.register(user)
-            
+
             .subscribe(
                 user => {
                     this.loading = false;
