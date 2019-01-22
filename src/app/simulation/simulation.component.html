@@ -7,11 +7,6 @@
             </div>
             <div class="row">
                 <div>
-                    <a class="btn btn-outline-primary btn-sm"  href="" (click)="selectFile()">Import
-                        configuration</a>
-                    <input type="file" [hidden]="true" id="file" (change)="handleFileUpload($event)">
-                </div>
-                <div>
                     <a class="btn btn-outline-primary btn-sm" [attr.href]="export()" download="download.json">Export
                         configuration</a>
                 </div>
