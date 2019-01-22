@@ -119,17 +119,12 @@ export class SimulationComponent implements OnInit {
     }
 
     applyConfiguration(configuration: SimulationParameters) {
-        console.log(configuration);
-        console.log(this.map);
         this.map.eachLayer(layer => {
             if (layer instanceof L.Marker || layer instanceof L.Polygon || layer instanceof L.Polyline) {
                 this.map.removeLayer(layer);
             }
         });
         this.layers = []; // remove existing layers
-        console.log(this.map);
-        console.log(configuration);
-
         this.simulationFormComponent.setAlgorithmParameters(configuration.algorithm);
 
         this.drawPoints(configuration.points);
@@ -153,13 +148,11 @@ export class SimulationComponent implements OnInit {
 
                 (layer as any).props = value.properties;
                 layer.bindPopup(this.getSensorPopupContent((layer as any).props));
-                console.log(this.layers);
                 this.editableLayers.addLayer(layer);
                 layer.options.draggable = true;
                 layer.options.clickable = true;
                 newLayers.push(layer);
                 this.map.addLayer(layer);
-                console.log(this.layers);
             });
         }
         this.layers = newLayers;
@@ -168,7 +161,6 @@ export class SimulationComponent implements OnInit {
     drawObstaclesAndNet(featureCollection: FeatureCollection, color: string) {
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
-                console.log(value);
                 let layer;
                 if (value.geometry.type === 'Polygon') {
                     const reversedCoordinates = (value.geometry as any).coordinates;
@@ -183,6 +175,7 @@ export class SimulationComponent implements OnInit {
                     layer = L.polygon(coordinates);
                     layer.bindPopup(this.getObstaclePopupContent(value.properties));
                 } else if (value.geometry.type === 'LineString') {
+                    console.log(value);
                     const reversedCoordinates = (value.geometry as any).coordinates;
                     const coordinates = [];
 
@@ -191,17 +184,19 @@ export class SimulationComponent implements OnInit {
                     });
 
                     layer = L.polyline((value.geometry as any).coordinates);
+                    var mColor = this.modulesDataService.getColorByModuleId(value.properties.module)
+                    layer.setStyle({
+                        color: mColor
+                    });
                 } else {
                     return;
                 }
 
                 (layer as any).props = value.properties;
                 layer.setStyle(() => ({ color: color }));
-                console.log(this.layers);
                 this.editableLayers.addLayer(layer);
                 this.layers.push(layer);
                 this.map.addLayer(layer);
-                console.log(this.layers);
             });
         }
     }

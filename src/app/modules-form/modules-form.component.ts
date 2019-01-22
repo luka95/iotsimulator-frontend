@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ModulesDataService} from '../_services/modules-data.service';
+import { Component, OnInit } from '@angular/core';
+import { ModulesDataService } from '../_services/modules-data.service';
 
 export interface CommunicationModule {
     id: number;
@@ -8,6 +8,7 @@ export interface CommunicationModule {
     energyReceiving: number;
     energyIdle: number;
     range: number;
+    color: string;
 }
 
 @Component({
@@ -24,6 +25,5 @@ export class ModulesFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.modules = this.modulesDataService.getModules();
-        console.log("NGONINIT", this.modules);
     }
 }

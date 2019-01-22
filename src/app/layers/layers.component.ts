@@ -100,16 +100,12 @@ export class LayersComponent implements OnInit {
     }
 
     applyConfiguration(configuration: SimulationParameters): void {
-        console.log(this.map);
         this.map.eachLayer(layer => {
             if (layer instanceof L.Marker || layer instanceof L.Polygon || layer instanceof L.Polyline) {
                 this.map.removeLayer(layer);
             }
         });
         this.layers = []; // remove existing layers
-        console.log(this.map);
-        console.log(configuration);
-
         this.simulationFormComponent.setAlgorithmParameters(configuration.algorithm);
 
         this.drawPoints(configuration.points);
@@ -132,13 +128,11 @@ export class LayersComponent implements OnInit {
 
                 (layer as any).props = value.properties;
                 layer.bindPopup(this.getSensorPopupContent((layer as any).props));
-                console.log(this.layers);
                 this.editableLayers.addLayer(layer);
                 layer.options.draggable = true;
                 layer.options.clickable = true;
                 newLayers.push(layer);
                 this.map.addLayer(layer);
-                console.log(this.layers);
             });
         }
         this.layers = newLayers;
@@ -147,7 +141,6 @@ export class LayersComponent implements OnInit {
     drawObstaclesAndNet(featureCollection: FeatureCollection, color: string): void {
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
-                console.log(value);
                 let layer;
                 if (value.geometry.type === 'Polygon') {
                     const reversedCoordinates = (value.geometry as any).coordinates;
@@ -170,17 +163,18 @@ export class LayersComponent implements OnInit {
                     });
 
                     layer = L.polyline((value.geometry as any).coordinates);
+                    var mColor = this.modulesDataService.getColorByModuleId(value.properties.module)
+                    layer.setStyle({
+                        color: mColor
+                    });
                 } else {
                     return;
                 }
 
                 (layer as any).props = value.properties;
-                layer.setStyle(() => ({ color: color }));
-                console.log(this.layers);
                 this.editableLayers.addLayer(layer);
                 this.layers.push(layer);
                 this.map.addLayer(layer);
-                console.log(this.layers);
             });
         }
     }
@@ -195,7 +189,6 @@ export class LayersComponent implements OnInit {
 
     onDrawCreated(event): void {
         if (event.layerType === 'marker') {
-            console.log(event.layer);
             event.layer.setIcon(L.icon({
                 iconSize: [20, 24],
                 iconAnchor: [10, 24],
