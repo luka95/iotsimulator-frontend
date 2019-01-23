@@ -295,7 +295,7 @@ export class LayersComponent implements OnInit {
 
     findPointById(model: SimulationParameters, id: number): any {
         for (let i = 0; i < model.points.features.length; i++) {
-            if (model.points.features[i].id === id) {
+            if (model.points.features[i].properties.id == id) {
                 return model.points.features[i];
             }
         }
@@ -303,14 +303,11 @@ export class LayersComponent implements OnInit {
     }
 
     startSimulation(): void {
-        console.log("START");
-
         this.loading = true;
 
         const simulationParameters = this.getAllSimulationParameters();
 
         // validation
-
         if (simulationParameters.points.features.length == 0) {
             this.loading = false;
             this.error = "Nije postavljen niti jedan čvor";
