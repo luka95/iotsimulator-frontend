@@ -42,6 +42,13 @@
                         <input type="array" class="form-control" aria-label="disconnectedNodes" aria-describedby="disconnectedNodes-prepend"
                             name="disconnectedNodes" id="disconnectedNodes" [(ngModel)]="report.disconnectedNodes">
                     </div>
+                    <div class="input-group has-error input-group-sm mb-3" *ngIf="report.numberOfSolutions">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="numberOfSolutions-prepend">Broj validnih rješenja</span>
+                            </div>
+                            <input type="array" class="form-control" aria-label="numberOfSolutions" aria-describedby="numberOfSolutions-prepend"
+                                name="numberOfSolutions" id="numberOfSolutions" [(ngModel)]="report.numberOfSolutions">
+                        </div>
                 </div>
             </div>
         </fieldset>

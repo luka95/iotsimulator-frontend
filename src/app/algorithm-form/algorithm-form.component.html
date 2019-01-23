@@ -53,6 +53,16 @@
                         [(ngModel)]="selectedAlgorithm.params.limitSteadyGenerations">
                 </div>
             </div>
+            <div *ngIf="selectedAlgorithm.value == 'DeepSearchAlgorithmModel'">
+                <div class="input-group input-group-sm mb-3">
+                    <label style="margin-right:10px">Reduktor:</label>
+                    <select [(ngModel)]="selectedReducer" name="reducer" id="reducer">
+                        <option *ngFor="let reducer of reducers" [ngValue]="reducer">
+                            {{reducer.viewValue}}
+                        </option>
+                    </select>
+                </div>
+            </div>
         </fieldset>
     </form>
 </div>

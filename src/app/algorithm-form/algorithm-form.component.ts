@@ -38,6 +38,13 @@ export class AlgorithmFormComponent {
             params: {
                 type: 'ClusteringAlgorithmModel'
             }
+        },
+        {
+            value: 'DeepSearchAlgorithmModel',
+            viewValue: 'Deep search algorithm',
+            params: {
+                type: 'DeepSearchAlgorithmModel'
+            }
         }
     ];
 
