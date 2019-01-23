@@ -28,6 +28,15 @@
                 </div>
 
                 <div class="input-group input-group-sm mb-3">
+                    <label style="margin-right:10px">Evaluator:</label>
+                    <select [(ngModel)]="selectedEvaluator" name="evaluator" id="evaluator">
+                        <option *ngFor="let evaluator of evaluators" [ngValue]="evaluator">
+                            {{evaluator.viewValue}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="population-prepend">Populacija</span>
                     </div>
@@ -59,6 +68,14 @@
                     <select [(ngModel)]="selectedReducer" name="reducer" id="reducer">
                         <option *ngFor="let reducer of reducers" [ngValue]="reducer">
                             {{reducer.viewValue}}
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <label style="margin-right:10px">Evaluator:</label>
+                    <select [(ngModel)]="selectedEvaluator" name="evaluator" id="evaluator">
+                        <option *ngFor="let evaluator of evaluators" [ngValue]="evaluator">
+                            {{evaluator.viewValue}}
                         </option>
                     </select>
                 </div>

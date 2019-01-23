@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Algorithm, AlgorithmParameters } from '../_models';
 import { Reducer } from '../_models/reducer';
+import { Evaluator } from '../_models/evaluator';
 
 
 @Component({
@@ -18,6 +19,14 @@ export class AlgorithmFormComponent {
         }, {
             value: 'DijkstraReducer',
             viewValue: 'Dijkstra Reducer',
+        }
+    ];
+
+    evaluators: Evaluator[] = [
+        {
+            value: 'StaticEvaluator',
+            viewValue: 'Static Evaluator',
+
         }
     ];
 
@@ -50,12 +59,14 @@ export class AlgorithmFormComponent {
 
     private selectedAlgorithm: Algorithm = this.algorithms[0];
     private selectedReducer: Reducer = this.reducers[0];
+    private selectedEvaluator: Evaluator = this.evaluators[0];
 
     constructor() {
     }
 
     getAlgorithmParameters(): AlgorithmParameters {
         this.selectedAlgorithm.params.reducer = this.selectedReducer;
+        this.selectedAlgorithm.params.evaluator = this.selectedEvaluator;
         return this.selectedAlgorithm.params;
     }
 
