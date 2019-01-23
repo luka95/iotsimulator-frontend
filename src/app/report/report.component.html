@@ -3,11 +3,11 @@
     <form>
         <fieldset [disabled]="isDisabled">
             <div>
-                <label>Simulation: {{report.simulationId}}</label><br>
+                <label>Simulacija: {{report.simulationId}}</label><br>
                 <div>
                         <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="algorithm-prepend">Algorithm</span>
+                                    <span class="input-group-text" id="algorithm-prepend">Algoritam</span>
                                 </div>
                                 <input type="text" class="form-control" aria-label="algorithm" aria-describedby="algorithm-prepend"
                                     name="algorithm" id="algorithm" [(ngModel)]="report.algorithmName">
@@ -21,7 +21,7 @@
                     </div>
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="fitness-prepend">Fitness</span>
+                            <span class="input-group-text" id="fitness-prepend">Dobrota</span>
                         </div>
                         <input type="number" class="form-control" aria-label="fitness" aria-describedby="fitness-prepend"
                             name="fitness" id="fitness" [(ngModel)]="report.fitness">
@@ -29,7 +29,7 @@
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="limitIterations-prepend">Validity</span>
+                            <span class="input-group-text" id="limitIterations-prepend">Valjanost</span>
                         </div>
                         <input type="boolean" class="form-control" aria-label="valid" aria-describedby="valid-prepend"
                             name="valid" id="valid" [(ngModel)]="report.valid">
@@ -37,7 +37,7 @@
 
                     <div class="input-group has-error input-group-sm mb-3" *ngIf="report.disconnectedNodes && report.disconnectedNodes.length > 0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="disconnectedNodes-prepend">Disconnected Nodes</span>
+                            <span class="input-group-text" id="disconnectedNodes-prepend">Odspojeni čvorovi</span>
                         </div>
                         <input type="number" class="form-control" aria-label="disconnectedNodes" aria-describedby="disconnectedNodes-prepend"
                             name="disconnectedNodes" id="disconnectedNodes" [(ngModel)]="report.disconnectedNodes">

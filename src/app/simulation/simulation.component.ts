@@ -10,7 +10,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ModulesDataService, SimulationService } from '../_services';
 import { ActivatedRoute } from '@angular/router';
 import { LayersComponent } from '../layers/layers.component';
-import { SimulationParameters} from '../_models';
+import { SimulationParameters } from '../_models';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowModelComponent } from '../_modals/show-model';
+
 
 @Component({
     selector: 'simulation',
@@ -37,7 +40,8 @@ export class SimulationComponent implements OnInit {
     constructor(private sanitizer: DomSanitizer,
         public activatedRouter: ActivatedRoute,
         private simulationService: SimulationService,
-        private modulesDataService: ModulesDataService) {
+        private modulesDataService: ModulesDataService,
+        private modalService: NgbModal) {
         this.simId = this.activatedRouter.snapshot.params['id'];
 
     }
@@ -393,5 +397,9 @@ export class SimulationComponent implements OnInit {
         this.isObstacleFormDisabled = false;
         this.isStartSimulationButtonDisabled = false;
         this.showReport = false;
+    }
+    shopModelPopup(): void {
+        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg', backdrop: 'static' });
+        modalRef.componentInstance.data = this.getAllSimulationParameters();
     }
 }

@@ -31,8 +31,8 @@ export class SimulationsComponent implements OnInit {
             delete: true,
             custom: [
                 {
-                    name: 'details',
-                    title: '<span class="action-button">Details</span>',
+                    name: 'Detalji',
+                    title: '<span class="action-button">Detalji</span>',
                 },
             ]
         },
@@ -42,11 +42,11 @@ export class SimulationsComponent implements OnInit {
                 type: 'string'
             },
             algorithmName: {
-                title: 'Algorithm',
+                title: 'Algoritam',
                 type: 'string'
             },
             simulationStart: {
-                title: 'Simulation Start',
+                title: 'Početak simulacije',
                 type: 'date',
                 valuePrepareFunction: (date) => {
                     const formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
@@ -54,7 +54,7 @@ export class SimulationsComponent implements OnInit {
                 },
             },
             simulationEnd: {
-                title: 'Simulation End',
+                title: 'Kraj simulacije',
                 type: 'date',
                 valuePrepareFunction: (date) => {
                     const formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
@@ -62,11 +62,11 @@ export class SimulationsComponent implements OnInit {
                 },
             },
             isCompleted: {
-                title: 'Is Completed',
+                title: 'Završena',
                 type: 'boolean'
             },
             numberOfNodes: {
-                title: 'Number Of Nodes',
+                title: 'Broj čvorova',
                 type: 'number'
             }
         }

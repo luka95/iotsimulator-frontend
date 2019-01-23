@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <h5>Sensor Properties</h5>
+    <h5>Moduli</h5>
     <form>
         <fieldset [disabled]="isDisabled">
             <div>
@@ -11,20 +11,23 @@
 
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="battery-prepend">Current battery percentage</span>
+                        <span class="input-group-text" id="battery-prepend">Stanje baterije</span>
                     </div>
                     <input type="number" class="form-control" aria-label="battery" aria-describedby="battery-prepend"
                         value="100" max="100" min="0" name="battery" id="battery" [(ngModel)]="battery">
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
                 </div>
 
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Sending period: every</span>
+                        <span class="input-group-text">Period slanja: svakih</span>
                     </div>
                     <input type="number" class="form-control" aria-label="period" aria-describedby="period-prepend"
                         value="3600" min="0" name="period" id="period" [(ngModel)]="period">
                     <div class="input-group-append">
-                        <span class="input-group-text">seconds</span>
+                        <span class="input-group-text">sekundi</span>
                     </div>
                 </div>
             </div>

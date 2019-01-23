@@ -7,13 +7,14 @@
             </div>
             <div class="row">
                 <div>
-                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="selectFile()">Import
-                        configuration</a>
+                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="selectFile()">Uvezi konfiguraciju</a>
                     <input type="file" [hidden]="true" id="file" (change)="handleFileUpload($event)">
                 </div>
                 <div>
-                    <a class="btn btn-outline-primary btn-sm" [attr.href]="export()" download="download.json">Export
-                        configuration</a>
+                    <a class="btn btn-outline-primary btn-sm" [attr.href]="export()" download="download.json">Izvezi konfiguraciju</a>
+                </div>
+                <div>
+                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="shopModelPopup()">Model</a>
                 </div>
             </div>
 
@@ -30,7 +31,7 @@
             </div>
             <div class="container-fluid">
                 <div class="form-group">
-                    <button class="btn btn-success" (click)="startSimulation()">Start Simulation</button>
+                    <button class="btn btn-success" (click)="startSimulation()">Pokreni simulaciju</button>
                     <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 </div>
             </div>

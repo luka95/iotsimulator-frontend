@@ -9,6 +9,8 @@ import { AlgorithmFormComponent } from '../algorithm-form/algorithm-form.compone
 import { DomSanitizer } from '@angular/platform-browser';
 import { SimulationParameters } from '../_models';
 import { ModulesDataService, SimulationService } from '../_services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowModelComponent } from '../_modals/show-model';
 
 
 @Component({
@@ -26,7 +28,8 @@ export class LayersComponent implements OnInit {
 
     constructor(private sanitizer: DomSanitizer,
         private simulationService: SimulationService,
-        private modulesDataService: ModulesDataService) {
+        private modulesDataService: ModulesDataService,
+        private modalService: NgbModal) {
     }
 
     LAYER_OTM = {
@@ -354,5 +357,10 @@ export class LayersComponent implements OnInit {
                 features: []
             }
         };
+    }
+
+    shopModelPopup() : void{
+        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg', backdrop: 'static' });
+        modalRef.componentInstance.data = this.getAllSimulationParameters();
     }
 }

@@ -1,15 +1,14 @@
 <div class="container-fluid">
     <form>
         <div>
-            <h4>Communication modules:</h4>
+            <h4>Komunikacijski moduli:</h4>
             <div class="row">
                 <div *ngFor="let module of modules; let i = index" class="col">
                     <h5>{{module.name}}</h5>
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="energy-sending-prepend-{{i}}">Energy consumption when
-                                sending</span>
+                            <span class="input-group-text" id="energy-sending-prepend-{{i}}">Energija slanja</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="energySending-{{i}}"
                             attr.aria-describedby="energy-sending-prepend-{{i}}" value="{{module.energySending}}" name="energySending-{{i}}"
@@ -18,8 +17,7 @@
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="energy-receiving-prepend-{{i}}">Energy consumption when
-                                receiving</span>
+                            <span class="input-group-text" id="energy-receiving-prepend-{{i}}">Energija primitka</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="energyReceiving-{{i}}"
                             attr.aria-describedby="energy-receiving-prepend-{{i}}" value="{{module.energyReceiving}}"
@@ -28,7 +26,7 @@
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="energy-idle-prepend-{{i}}">Energy consumption when idle</span>
+                            <span class="input-group-text" id="energy-idle-prepend-{{i}}">Energija mirovanja</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="energyIdle-{{i}}"
                             attr.aria-describedby="energy-idle-prepend-{{i}}" value="{{module.energyIdle}}" name="energyIdle-{{i}}"
@@ -37,7 +35,7 @@
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="range-prepend-{{i}}">Range</span>
+                            <span class="input-group-text" id="range-prepend-{{i}}">Domet</span>
                         </div>
                         <input type="number" class="form-control" attr.aria-label="range-{{i}}" attr.aria-describedby="range-prepend-{{i}}"
                             value="{{module.range}}" name="range-{{i}}" id="range-{{i}}" [(ngModel)]="module.range">

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <h5>Algorithm Properties</h5>
+    <h5>Algoritam</h5>
     <form>
         <fieldset [disabled]="isDisabled">
 
@@ -13,7 +13,7 @@
                 <div *ngIf="selectedAlgorithm.value == 'GeneticAlgorithmModel'">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="population-prepend">Population size</span>
+                            <span class="input-group-text" id="population-prepend">Populacija</span>
                         </div>
                         <input type="number" class="form-control" aria-label="population" aria-describedby="population-prepend"
                             value="20" max="100" min="20" name="population" id="population" [(ngModel)]="selectedAlgorithm.params.population">
@@ -21,7 +21,7 @@
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="limitIterations-prepend">Iterations limit</span>
+                            <span class="input-group-text" id="limitIterations-prepend">Limit iteracija</span>
                         </div>
                         <input type="number" class="form-control" aria-label="population" aria-describedby="limitIterations-prepend"
                             value="100" max="10000" min="0" name="limitIterations" id="limitIterations" [(ngModel)]="selectedAlgorithm.params.limitIterations">
@@ -29,7 +29,7 @@
 
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="limitSteadyGenerations-prepend">Steady generations limit</span>
+                            <span class="input-group-text" id="limitSteadyGenerations-prepend">Limit iteracija bez poboljšanja</span>
                         </div>
                         <input type="number" class="form-control" aria-label="limitSteadyGenerations" aria-describedby="limitSteadyGenerations-prepend"
                             value="20" max="10000" min="0" name="limitSteadyGenerations" id="limitSteadyGenerations"

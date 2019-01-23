@@ -26,6 +26,8 @@ import { SimulationsComponent } from './simulations/simulations.component';
 import { SimulationComponent } from './simulation/simulation.component';
 import { DeleteConfirmComponent } from './_modals/delete-confirm/delete-confirm.component';
 import { ReportComponent } from './report/report.component';
+import { ShowModelComponent } from './_modals/show-model/show-model.component';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 
 @NgModule({
@@ -43,12 +45,14 @@ import { ReportComponent } from './report/report.component';
         SimulationComponent,
         DeleteConfirmComponent,
         ReportComponent,
+        ShowModelComponent,
     ],
     imports: [
         LeafletModule.forRoot(),
         LeafletDrawModule.forRoot(),
         PaginationModule.forRoot(),
         NgbModule.forRoot(),
+        NgxJsonViewerModule,
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
@@ -79,7 +83,8 @@ import { ReportComponent } from './report/report.component';
         AppComponent
     ],
     entryComponents: [
-        DeleteConfirmComponent
+        DeleteConfirmComponent,
+        ShowModelComponent
     ]
 
 })
