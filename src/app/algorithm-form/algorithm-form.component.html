@@ -1,40 +1,56 @@
 <div class="container-fluid">
-    <h5>Algoritam</h5>
+    <h5>Postavke algoritma</h5>
     <form>
         <fieldset [disabled]="isDisabled">
 
-            <div>
+            <div class="input-group input-group-sm mb-3">
+                <label style="margin-right:10px">Algoritam:</label>
                 <select [(ngModel)]="selectedAlgorithm" name="algorithm" id="algorithm">
                     <option *ngFor="let algorithm of algorithms" [ngValue]="algorithm">
                         {{algorithm.viewValue}}
                     </option>
-                </select><br>
-                <label>Model: {{selectedAlgorithm.value}}</label><br>
-                <div *ngIf="selectedAlgorithm.value == 'GeneticAlgorithmModel'">
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="population-prepend">Populacija</span>
-                        </div>
-                        <input type="number" class="form-control" aria-label="population" aria-describedby="population-prepend"
-                            value="20" max="100" min="20" name="population" id="population" [(ngModel)]="selectedAlgorithm.params.population">
-                    </div>
+                </select>
+            </div>
+            <div *ngIf="selectedAlgorithm.value == 'GeneticAlgorithmModel'">
+                <div class="input-group input-group-sm mb-3">
+                    <label style="margin-right:10px">Reduktor:</label>
+                    <select [(ngModel)]="selectedReducer" name="reducer" id="reducer">
+                        <option *ngFor="let reducer of reducers" [ngValue]="reducer">
+                            {{reducer.viewValue}}
+                        </option>
+                    </select>
 
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="limitIterations-prepend">Limit iteracija</span>
-                        </div>
-                        <input type="number" class="form-control" aria-label="population" aria-describedby="limitIterations-prepend"
-                            value="100" max="10000" min="0" name="limitIterations" id="limitIterations" [(ngModel)]="selectedAlgorithm.params.limitIterations">
+                    <div *ngIf="selectedReducer.value == 'DijkstraReducer'">
+                        <label style="margin-right:10px;margin-left: 10px;">Izvor:</label>
+                        <input type="number" aria-label="srcNodeIndex" aria-describedby="srcNodeIndex-prepend"
+                            placeholder="Node Id" name="population" id="population" [(ngModel)]="selectedReducer.id">
                     </div>
+                </div>
 
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="limitSteadyGenerations-prepend">Limit iteracija bez poboljšanja</span>
-                        </div>
-                        <input type="number" class="form-control" aria-label="limitSteadyGenerations" aria-describedby="limitSteadyGenerations-prepend"
-                            value="20" max="10000" min="0" name="limitSteadyGenerations" id="limitSteadyGenerations"
-                            [(ngModel)]="selectedAlgorithm.params.limitSteadyGenerations">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="population-prepend">Populacija</span>
                     </div>
+                    <input type="number" class="form-control" aria-label="population" aria-describedby="population-prepend"
+                        value="20" max="100" min="20" name="population" id="population" [(ngModel)]="selectedAlgorithm.params.population">
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="limitIterations-prepend">Limit iteracija</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="population" aria-describedby="limitIterations-prepend"
+                        value="100" max="10000" min="0" name="limitIterations" id="limitIterations" [(ngModel)]="selectedAlgorithm.params.limitIterations">
+                </div>
+
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="limitSteadyGenerations-prepend">Limit iteracija bez
+                            poboljšanja</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="limitSteadyGenerations" aria-describedby="limitSteadyGenerations-prepend"
+                        value="20" max="10000" min="0" name="limitSteadyGenerations" id="limitSteadyGenerations"
+                        [(ngModel)]="selectedAlgorithm.params.limitSteadyGenerations">
                 </div>
             </div>
         </fieldset>

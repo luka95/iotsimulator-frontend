@@ -3,4 +3,5 @@ export interface AlgorithmParameters {
     population?: number;
     limitIterations?: number;
     limitSteadyGenerations?: number;
+    reducer?: any;
 }

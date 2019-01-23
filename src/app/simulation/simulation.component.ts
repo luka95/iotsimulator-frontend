@@ -399,7 +399,7 @@ export class SimulationComponent implements OnInit {
         this.showReport = false;
     }
     shopModelPopup(): void {
-        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg', backdrop: 'static' });
+        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg'});
         modalRef.componentInstance.data = this.getAllSimulationParameters();
     }
 }

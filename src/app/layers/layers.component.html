@@ -1,4 +1,10 @@
 <div class="container-fluid">
+    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show">
+        <strong>Error!</strong> {{error}}
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
         <div class="col-md-8">
             <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
@@ -7,11 +13,13 @@
             </div>
             <div class="row">
                 <div>
-                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="selectFile()">Uvezi konfiguraciju</a>
+                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="selectFile()">Uvezi
+                        konfiguraciju</a>
                     <input type="file" [hidden]="true" id="file" (change)="handleFileUpload($event)">
                 </div>
                 <div>
-                    <a class="btn btn-outline-primary btn-sm" [attr.href]="export()" download="download.json">Izvezi konfiguraciju</a>
+                    <a class="btn btn-outline-primary btn-sm" [attr.href]="export()" download="download.json">Izvezi
+                        konfiguraciju</a>
                 </div>
                 <div>
                     <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="shopModelPopup()">Model</a>

@@ -48,6 +48,9 @@ export class SimulationsComponent implements OnInit {
             simulationStart: {
                 title: 'Početak simulacije',
                 type: 'date',
+                width: '180px',
+                sort: true,
+                sortDirection: 'desc',
                 valuePrepareFunction: (date) => {
                     const formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
                     return formatted;
@@ -56,6 +59,7 @@ export class SimulationsComponent implements OnInit {
             simulationEnd: {
                 title: 'Kraj simulacije',
                 type: 'date',
+                width: '180px',
                 valuePrepareFunction: (date) => {
                     const formatted = new DatePipe('en-EN').transform(date, 'yyyy/MM/dd hh:mm:ss');
                     return formatted;
@@ -92,7 +96,7 @@ export class SimulationsComponent implements OnInit {
         if (event.data.isCompleted) {
             this.router.navigateByUrl('/simulations/' + event.data.id);
         }
-    }    onCustom(event) {
+    } onCustom(event) {
         this.router.navigateByUrl('/simulations/' + event.data.id);
     }
     onDelete(event): void {

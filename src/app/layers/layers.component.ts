@@ -25,6 +25,7 @@ export class LayersComponent implements OnInit {
 
     map: any;
     loading = false;
+    error: string;
 
     constructor(private sanitizer: DomSanitizer,
         private simulationService: SimulationService,
@@ -292,9 +293,40 @@ export class LayersComponent implements OnInit {
         this.map = map;
     }
 
+    findPointById(model: SimulationParameters, id: number): any {
+        for (let i = 0; i < model.points.features.length; i++) {
+            if (model.points.features[i].id === id) {
+                return model.points.features[i];
+            }
+        }
+        return undefined;
+    }
+
     startSimulation(): void {
+        console.log("START");
+
         this.loading = true;
+
         const simulationParameters = this.getAllSimulationParameters();
+
+        // validation
+
+        if (simulationParameters.points.features.length == 0) {
+            this.loading = false;
+            this.error = "Nije postavljen niti jedan čvor";
+            return;
+        }
+
+        if (simulationParameters.algorithm.reducer.id) {
+            let srcNode = this.findPointById(simulationParameters, simulationParameters.algorithm.reducer.id);
+            if (!srcNode) {
+                this.loading = false;
+                this.error = "Čvor " + simulationParameters.algorithm.reducer.id + " ne postoji na karti";
+                return;
+            }
+        }
+
+
         this.simulationService.createSimulation(simulationParameters)
             .subscribe(
                 data => {
@@ -359,8 +391,12 @@ export class LayersComponent implements OnInit {
         };
     }
 
-    shopModelPopup() : void{
-        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg', backdrop: 'static' });
+    shopModelPopup(): void {
+        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg' });
         modalRef.componentInstance.data = this.getAllSimulationParameters();
+    }
+
+    closeAlert(): void {
+        this.error = "";
     }
 }

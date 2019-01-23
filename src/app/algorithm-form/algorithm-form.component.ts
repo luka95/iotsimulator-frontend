@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Algorithm, AlgorithmParameters } from '../_models';
+import { Reducer } from '../_models/reducer';
 
 
 @Component({
@@ -8,6 +9,17 @@ import { Algorithm, AlgorithmParameters } from '../_models';
 })
 export class AlgorithmFormComponent {
     @Input() isDisabled: boolean;
+
+    reducers: Reducer[] = [
+        {
+            value: 'PrimReducer',
+            viewValue: 'Prim Reducer',
+
+        }, {
+            value: 'DijkstraReducer',
+            viewValue: 'Dijkstra Reducer',
+        }
+    ];
 
     algorithms: Algorithm[] = [
         {
@@ -30,11 +42,13 @@ export class AlgorithmFormComponent {
     ];
 
     private selectedAlgorithm: Algorithm = this.algorithms[0];
+    private selectedReducer: Reducer = this.reducers[0];
 
     constructor() {
     }
 
     getAlgorithmParameters(): AlgorithmParameters {
+        this.selectedAlgorithm.params.reducer = this.selectedReducer;
         return this.selectedAlgorithm.params;
     }
 
