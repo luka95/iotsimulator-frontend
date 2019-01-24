@@ -30,6 +30,7 @@ export class SimulationComponent implements OnInit {
     simId: string;
     data: any;
     showReport = true;
+    error: string;
 
     isAlgorithmPropertiesDisabled = true;
     isSensorPropertiesDisabled = true;
@@ -92,14 +93,22 @@ export class SimulationComponent implements OnInit {
                     iconUrl: this.getMarkerIcon()
                 })
             },
-            polyline: true,
+            polyline: false,
             circle: false,
-            circlemarker: false
+            circlemarker: false,
+
         },
         edit: {
             featureGroup: this.editableLayers
         }
     };
+
+    onDrawDeleted(event) {
+        console.log(event.layers.eachLayer(layer => {
+            const layerIndex = this.layers.indexOf(layer);
+            this.layers.splice(layerIndex, 1);
+        }));
+    }
 
     static hasFeatures(featureCollection: FeatureCollection): boolean {
         return featureCollection.features !== undefined && featureCollection.features.length > 0;
@@ -319,18 +328,44 @@ export class SimulationComponent implements OnInit {
         this.map = map;
     }
 
-    startSimulation() {
+    findPointById(model: SimulationParameters, id: number): any {
+        for (let i = 0; i < model.points.features.length; i++) {
+            if (model.points.features[i].properties.id === id) {
+                return model.points.features[i];
+            }
+        }
+        return undefined;
+    }
+
+    startSimulation(): void {
         this.loading = true;
+
         const simulationParameters = this.getAllSimulationParameters();
+
+        // validation
+        if (simulationParameters.points.features.length === 0) {
+            this.loading = false;
+            this.error = 'Nije postavljen niti jedan čvor';
+            return;
+        }
+
+        if (simulationParameters.algorithm.reducer.id) {
+            const srcNode = this.findPointById(simulationParameters, simulationParameters.algorithm.reducer.id);
+            if (!srcNode) {
+                this.loading = false;
+                this.error = 'Čvor ' + simulationParameters.algorithm.reducer.id + ' ne postoji na karti';
+                return;
+            }
+        }
+
+
         this.simulationService.createSimulation(simulationParameters)
             .subscribe(
                 data => {
                     this.loading = false;
-                    console.log(data);
                 },
                 error => {
                     this.loading = false;
-                    console.log(error);
                 });
     }
 
@@ -369,10 +404,6 @@ export class SimulationComponent implements OnInit {
                 const polygon = layer.toGeoJSON();
                 polygon.properties = l.props;
                 obstacles.features.push(polygon);
-            } else if (layer instanceof L.Polyline) {
-                const polyline = layer.toGeoJSON();
-                polyline.properties = l.props;
-                obstacles.features.push(polyline);
             }
         });
 
@@ -399,7 +430,10 @@ export class SimulationComponent implements OnInit {
         this.showReport = false;
     }
     shopModelPopup(): void {
-        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg'});
+        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg' });
         modalRef.componentInstance.data = this.getAllSimulationParameters();
+    }
+    closeAlert(): void {
+        this.error = '';
     }
 }
