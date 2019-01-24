@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
                 [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions"
-                (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
+                (leafletDrawCreated)="onDrawCreated($event)" (leafletDrawDeleted)="onDrawDeleted($event)" (leafletMapReady)="onMapReady($event)">
             </div>
             <div class="row">
                 <div>
@@ -22,7 +22,7 @@
                         konfiguraciju</a>
                 </div>
                 <div>
-                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="shopModelPopup()">Model</a>
+                    <a class="btn btn-outline-primary btn-sm" href="javascript:;" (click)="showModelPopup()">Model</a>
                 </div>
             </div>
 

@@ -28,9 +28,9 @@ export class LayersComponent implements OnInit {
     error: string;
 
     constructor(private sanitizer: DomSanitizer,
-        private simulationService: SimulationService,
-        private modulesDataService: ModulesDataService,
-        private modalService: NgbModal) {
+                private simulationService: SimulationService,
+                private modulesDataService: ModulesDataService,
+                private modalService: NgbModal) {
     }
 
     LAYER_OTM = {
@@ -54,7 +54,7 @@ export class LayersComponent implements OnInit {
     };
 
     // Values to bind to Leaflet Directive
-    layersControlOptions = { position: 'bottomright' };
+    layersControlOptions = {position: 'bottomright'};
     options = {
         zoom: 16,
         center: latLng(45.801128, 15.9706648)
@@ -80,7 +80,7 @@ export class LayersComponent implements OnInit {
                     popupAnchor: [0, -24]
                 })
             },
-            polyline: true,
+            polyline: false,
             circle: false,
             circlemarker: false
         },
@@ -182,6 +182,13 @@ export class LayersComponent implements OnInit {
 
         reader.readAsText(file);
         reader.onload = ev => this.applyConfiguration(JSON.parse((ev as any).target.result));
+    }
+
+    onDrawDeleted(event) {
+        console.log(event.layers.eachLayer(layer => {
+            const layerIndex = this.layers.indexOf(layer);
+            this.layers.splice(layerIndex, 1);
+        }));
     }
 
     onDrawCreated(event): void {
@@ -295,7 +302,7 @@ export class LayersComponent implements OnInit {
 
     findPointById(model: SimulationParameters, id: number): any {
         for (let i = 0; i < model.points.features.length; i++) {
-            if (model.points.features[i].properties.id == id) {
+            if (model.points.features[i].properties.id === id) {
                 return model.points.features[i];
             }
         }
@@ -308,17 +315,17 @@ export class LayersComponent implements OnInit {
         const simulationParameters = this.getAllSimulationParameters();
 
         // validation
-        if (simulationParameters.points.features.length == 0) {
+        if (simulationParameters.points.features.length === 0) {
             this.loading = false;
-            this.error = "Nije postavljen niti jedan čvor";
+            this.error = 'Nije postavljen niti jedan čvor';
             return;
         }
 
         if (simulationParameters.algorithm.reducer.id) {
-            let srcNode = this.findPointById(simulationParameters, simulationParameters.algorithm.reducer.id);
+            const srcNode = this.findPointById(simulationParameters, simulationParameters.algorithm.reducer.id);
             if (!srcNode) {
                 this.loading = false;
-                this.error = "Čvor " + simulationParameters.algorithm.reducer.id + " ne postoji na karti";
+                this.error = 'Čvor ' + simulationParameters.algorithm.reducer.id + ' ne postoji na karti';
                 return;
             }
         }
@@ -388,12 +395,12 @@ export class LayersComponent implements OnInit {
         };
     }
 
-    shopModelPopup(): void {
-        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg' });
+    showModelPopup(): void {
+        const modalRef = this.modalService.open(ShowModelComponent, {size: 'lg'});
         modalRef.componentInstance.data = this.getAllSimulationParameters();
     }
 
     closeAlert(): void {
-        this.error = "";
+        this.error = '';
     }
 }
