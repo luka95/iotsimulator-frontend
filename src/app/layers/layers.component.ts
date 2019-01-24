@@ -1,18 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as L from 'leaflet';
-import {featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer} from 'leaflet';
-import {SensorFormComponent} from '../sensor-form/sensor-form.component';
-import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
-import {FeatureCollection} from 'geojson';
-import {AlgorithmFormComponent} from '../algorithm-form/algorithm-form.component';
-import {DomSanitizer} from '@angular/platform-browser';
-import {SimulationParameters} from '../_models';
-import {ModulesDataService, SimulationService} from '../_services';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ShowModelComponent} from '../_modals/show-model';
-import {EditSensorPropertiesComponent} from '../_modals/edit-sensor-properties/edit-sensor-properties.component';
-import {EditObstaclePropertiesComponent} from '../_modals/edit-obstacle-properties/edit-obstacle-properties.component';
+import { featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer } from 'leaflet';
+import { SensorFormComponent } from '../sensor-form/sensor-form.component';
+import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
+import { FeatureCollection } from 'geojson';
+import { AlgorithmFormComponent } from '../algorithm-form/algorithm-form.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SimulationParameters } from '../_models';
+import { ModulesDataService, SimulationService } from '../_services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowModelComponent } from '../_modals/show-model';
+import { EditSensorPropertiesComponent } from '../_modals/edit-sensor-properties/edit-sensor-properties.component';
+import { EditObstaclePropertiesComponent } from '../_modals/edit-obstacle-properties/edit-obstacle-properties.component';
 
 
 @Component({
@@ -220,7 +220,7 @@ export class LayersComponent implements OnInit {
     }
 
     editOrViewSensorProperties(layer: any, disabled?: boolean) {
-        const modalRef = this.modalService.open(EditSensorPropertiesComponent, {size: 'lg'});
+        const modalRef = this.modalService.open(EditSensorPropertiesComponent, { backdrop: true, container: '.edit-modal-container', size: 'lg' });
 
         const layerIndex = this.layers.indexOf(layer);
 
@@ -257,7 +257,7 @@ export class LayersComponent implements OnInit {
     }
 
     editOrViewObstacleProperties(layer: any, disabled?: boolean) {
-        const modalRef = this.modalService.open(EditObstaclePropertiesComponent, {size: 'lg'});
+        const modalRef = this.modalService.open(EditObstaclePropertiesComponent, { backdrop: true, container: '.edit-modal-container', size: 'lg' });
 
         modalRef.componentInstance.isDisbled = false;
         modalRef.componentInstance.loraWanSelected = layer.props.communicationEfficiencyPercentage;

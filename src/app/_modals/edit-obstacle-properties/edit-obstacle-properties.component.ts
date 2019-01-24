@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-edit-sensor-properties-modal',
-    templateUrl: './edit-obstacle-properties.component.html'
+    templateUrl: './edit-obstacle-properties.component.html',
 })
 export class EditObstaclePropertiesComponent implements OnInit {
     @Input() isDisabled;
