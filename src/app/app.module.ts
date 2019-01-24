@@ -28,6 +28,8 @@ import { DeleteConfirmComponent } from './_modals/delete-confirm/delete-confirm.
 import { ReportComponent } from './report/report.component';
 import { ShowModelComponent } from './_modals/show-model/show-model.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import {EditSensorPropertiesComponent} from './_modals/edit-sensor-properties/edit-sensor-properties.component';
+import {EditObstaclePropertiesComponent} from './_modals/edit-obstacle-properties/edit-obstacle-properties.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
         DeleteConfirmComponent,
         ReportComponent,
         ShowModelComponent,
+        EditSensorPropertiesComponent,
+        EditObstaclePropertiesComponent
     ],
     imports: [
         LeafletModule.forRoot(),
@@ -84,7 +88,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     ],
     entryComponents: [
         DeleteConfirmComponent,
-        ShowModelComponent
+        ShowModelComponent,
+        EditSensorPropertiesComponent,
+        EditObstaclePropertiesComponent
     ]
 
 })

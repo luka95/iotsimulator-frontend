@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import * as L from 'leaflet';
-import { featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer } from 'leaflet';
-import { SensorFormComponent } from '../sensor-form/sensor-form.component';
-import { ObstacleFormComponent } from '../obstacle-from/obstacle-form.component';
-import { FeatureCollection } from 'geojson';
-import { AlgorithmFormComponent } from '../algorithm-form/algorithm-form.component';
-import { DomSanitizer } from '@angular/platform-browser';
-import { SimulationParameters } from '../_models';
-import { ModulesDataService, SimulationService } from '../_services';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ShowModelComponent } from '../_modals/show-model';
+import {featureGroup, FeatureGroup, latLng, Layer, marker, tileLayer} from 'leaflet';
+import {SensorFormComponent} from '../sensor-form/sensor-form.component';
+import {ObstacleFormComponent} from '../obstacle-from/obstacle-form.component';
+import {FeatureCollection} from 'geojson';
+import {AlgorithmFormComponent} from '../algorithm-form/algorithm-form.component';
+import {DomSanitizer} from '@angular/platform-browser';
+import {SimulationParameters} from '../_models';
+import {ModulesDataService, SimulationService} from '../_services';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ShowModelComponent} from '../_modals/show-model';
+import {EditSensorPropertiesComponent} from '../_modals/edit-sensor-properties/edit-sensor-properties.component';
+import {EditObstaclePropertiesComponent} from '../_modals/edit-obstacle-properties/edit-obstacle-properties.component';
 
 
 @Component({
@@ -115,19 +117,10 @@ export class LayersComponent implements OnInit {
         if (LayersComponent.hasFeatures(featureCollection)) {
             featureCollection.features.forEach((value) => {
                 const layer = marker((value.geometry as any).coordinates.reverse());
-                const availableModules = value.properties.availableModules;
-                layer.setIcon(L.icon({
-                    iconSize: [20, 24],
-                    iconAnchor: [10, 24],
-                    iconUrl: this.getMarkerIcon(availableModules.includes(0), availableModules.includes(1)),
-                    popupAnchor: [0, -24]
-                }));
 
-                (layer as any).props = value.properties;
-                layer.bindPopup(this.getSensorPopupContent((layer as any).props));
+                this.createOrUpdateSensorProperties(layer, value.properties);
+
                 this.editableLayers.addLayer(layer);
-                layer.options.draggable = true;
-                layer.options.clickable = true;
                 newLayers.push(layer);
                 this.map.addLayer(layer);
             });
@@ -193,13 +186,6 @@ export class LayersComponent implements OnInit {
 
     onDrawCreated(event): void {
         if (event.layerType === 'marker') {
-            event.layer.setIcon(L.icon({
-                iconSize: [20, 24],
-                iconAnchor: [10, 24],
-                iconUrl: this.getMarkerIcon(),
-                popupAnchor: [0, -24]
-            }));
-
             const availableModules = [];
 
             if (this.sensorFormComponent.getLoraWanSelectedStatus()) {
@@ -210,23 +196,97 @@ export class LayersComponent implements OnInit {
                 availableModules.push(1);
             }
 
-            event.layer.props = {
-                id: this.numberOfLayers++,
-                availableModules: availableModules,
-                modulesOn: [],
-                batteryPercentage: this.sensorFormComponent.getBatteryStatus()
-            };
-            event.layer.bindPopup(this.getSensorPopupContent(event.layer.props));
-
+            this.createOrUpdateSensorProperties(event.layer,
+                {
+                    id: this.numberOfLayers++,
+                    availableModules: availableModules,
+                    modulesOn: [],
+                    batteryPercentage: this.sensorFormComponent.getBatteryStatus()
+                });
+            event.layer.on('dblclick', () => {
+                this.editOrViewSensorProperties(event.layer);
+            });
         } else {
-            event.layer.props = {
+            this.createOrUpdateObstacleProperties(event.layer, {
                 communicationEfficiencyPercentage: this.obstacleFormComponent.getCommunicationEfficiencyPercentage(),
                 height: this.obstacleFormComponent.getHeight()
-            };
-            event.layer.bindPopup(this.getObstaclePopupContent(event.layer.props));
+            });
+            event.layer.on('dblclick', () => {
+                this.editOrViewObstacleProperties(event.layer);
+            });
         }
         this.layers.push(event.layer);
         this.map.removeLayer(event.layer);
+    }
+
+    editOrViewSensorProperties(layer: any, disabled?: boolean) {
+        const modalRef = this.modalService.open(EditSensorPropertiesComponent, {size: 'lg'});
+
+        const layerIndex = this.layers.indexOf(layer);
+
+        modalRef.componentInstance.isDisbled = false;
+        modalRef.componentInstance.loraWanSelected = layer.props.availableModules.includes(0);
+        modalRef.componentInstance.xbeeSelected = layer.props.availableModules.includes(1);
+        modalRef.componentInstance.battery = layer.props.batteryPercentage;
+        modalRef.componentInstance.period = layer.props.period;
+
+        modalRef.componentInstance.saveEvent.subscribe(($e) => {
+            // this.map.removeLayer(layer);
+
+            const availableModules = [];
+
+            if ($e.loraWanSelected) {
+                availableModules.push(0);
+            }
+
+            if ($e.xbeeSelected) {
+                availableModules.push(1);
+            }
+
+            layer = this.createOrUpdateSensorProperties(layer, {
+                id: layer.props.id,
+                availableModules: availableModules,
+                modulesOn: [],
+                batteryPercentage: $e.battery
+            });
+            // this.layers.splice(layerIndex, 1);
+            // this.layers.push(layer);
+            // this.map.addLayer(layer);
+            console.log(layer);
+        });
+    }
+
+    editOrViewObstacleProperties(layer: any, disabled?: boolean) {
+        const modalRef = this.modalService.open(EditObstaclePropertiesComponent, {size: 'lg'});
+
+        modalRef.componentInstance.isDisbled = false;
+        modalRef.componentInstance.loraWanSelected = layer.props.communicationEfficiencyPercentage;
+
+        modalRef.componentInstance.saveEvent.subscribe(($e) => {
+            console.log($e);
+            this.createOrUpdateObstacleProperties(layer, {
+                communicationEfficiencyPercentage: $e.communicationEfficiencyPercentage,
+                height: layer.props.height
+            });
+            console.log(layer);
+        });
+    }
+
+    createOrUpdateSensorProperties(layer: any, props: any): any {
+        layer.props = props;
+        layer.bindPopup(this.getSensorPopupContent(layer.props));
+        layer.setIcon(L.icon({
+            iconSize: [20, 24],
+            iconAnchor: [10, 24],
+            iconUrl: this.getMarkerIcon(props.availableModules.includes(0), props.availableModules.includes(1)),
+            popupAnchor: [0, -24]
+        }));
+        return layer;
+    }
+
+    createOrUpdateObstacleProperties(layer: any, props: any) {
+        layer.props = props;
+        layer.bindPopup(this.getObstaclePopupContent(layer.props));
     }
 
     getSensorPopupContent(props: any): string {
@@ -235,13 +295,15 @@ export class LayersComponent implements OnInit {
             'available modules: [{availableModules}]<br>' +
             'modules on: [{modulesOn}]<br>' +
             'battery percentage: {batteryPercentage}<br>' +
-            '</p>', props);
+            '</p>' +
+            '<b>(Dvostruki klik za uređivanje)</b>', props);
     }
 
     getObstaclePopupContent(props: any): string {
         return L.Util.template(
             '<p>communication efficiency :{communicationEfficiencyPercentage}%<br>' +
-            'height: {height}</p>', props);
+            'height: {height}</p>' +
+            '<b>(Dvostruki klik za uređivanje)</b>', props);
     }
 
     getMarkerFill(id: String, loraAvailable?: boolean, xbeeAvailable?: boolean): string {

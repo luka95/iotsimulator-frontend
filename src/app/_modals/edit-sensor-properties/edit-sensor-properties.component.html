@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title">Uređivanje svojstava senzorskog čvora</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="container-fluid">
+    <h5>Moduli</h5>
+    <form>
+        <fieldset [disabled]="isDisabled">
+            <div>
+                <input type="checkbox" name="lora" [(ngModel)]="loraWanSelected"/>
+                <label [for]="lora">LoRaWAN</label><br>
+
+                <input type="checkbox" name="xbee" [(ngModel)]="xbeeSelected"/>
+                <label [for]="xbee">XBee</label><br>
+
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="battery-prepend">Stanje baterije</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="battery" aria-describedby="battery-prepend"
+                           value="100" max="100" min="0" name="battery" id="battery" [(ngModel)]="battery">
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+
+                <!--<div class="input-group input-group-sm mb-3">-->
+                    <!--<div class="input-group-prepend">-->
+                        <!--<span class="input-group-text">Period slanja: svakih</span>-->
+                    <!--</div>-->
+                    <!--<input type="number" class="form-control" aria-label="period" aria-describedby="period-prepend"-->
+                           <!--value="3600" min="0" name="period" id="period" [(ngModel)]="period">-->
+                    <!--<div class="input-group-append">-->
+                        <!--<span class="input-group-text">sekundi</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" (click)="activeModal.dismiss('Cancel click')">Odustani</button>
+    <button type="button" class="btn btn-success" (click)="save()">Pohrani promjene</button>
+</div>
+
