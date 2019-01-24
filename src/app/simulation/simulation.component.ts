@@ -13,7 +13,7 @@ import { LayersComponent } from '../layers/layers.component';
 import { SimulationParameters } from '../_models';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowModelComponent } from '../_modals/show-model';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'simulation',
@@ -42,7 +42,8 @@ export class SimulationComponent implements OnInit {
         public activatedRouter: ActivatedRoute,
         private simulationService: SimulationService,
         private modulesDataService: ModulesDataService,
-        private modalService: NgbModal) {
+        private modalService: NgbModal,
+        private toastr: ToastrService) {
         this.simId = this.activatedRouter.snapshot.params['id'];
 
     }
@@ -359,12 +360,16 @@ export class SimulationComponent implements OnInit {
         }
 
 
+
         this.simulationService.createSimulation(simulationParameters)
             .subscribe(
-                data => {
+                (data) => {
+                    this.toastr.success('Simulacija je uspješno pokrenuta');
                     this.loading = false;
+                    this.error = "";
                 },
-                error => {
+                (error: any) => {
+                    this.toastr.error('Greška prilikom pokretanja simulacije: ', error);
                     this.loading = false;
                 });
     }

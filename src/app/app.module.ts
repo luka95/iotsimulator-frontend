@@ -28,6 +28,12 @@ import { DeleteConfirmComponent } from './_modals/delete-confirm/delete-confirm.
 import { ReportComponent } from './report/report.component';
 import { ShowModelComponent } from './_modals/show-model/show-model.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import {
+    ToastrModule, ToastContainerModule
+} from 'ngx-toastr';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -52,13 +58,20 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
         LeafletDrawModule.forRoot(),
         PaginationModule.forRoot(),
         NgbModule.forRoot(),
+        ToastrModule.forRoot({
+            timeOut: 2000,
+            preventDuplicates: true
+        }),
+        ToastContainerModule,
+        BrowserAnimationsModule,
         NgxJsonViewerModule,
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
         routing,
         HttpClientModule,
-        Ng2SmartTableModule
+        Ng2SmartTableModule,
+        CommonModule
     ],
     providers: [
         AuthGuard,

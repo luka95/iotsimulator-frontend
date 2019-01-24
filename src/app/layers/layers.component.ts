@@ -11,6 +11,8 @@ import { SimulationParameters } from '../_models';
 import { ModulesDataService, SimulationService } from '../_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowModelComponent } from '../_modals/show-model';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -30,7 +32,8 @@ export class LayersComponent implements OnInit {
     constructor(private sanitizer: DomSanitizer,
         private simulationService: SimulationService,
         private modulesDataService: ModulesDataService,
-        private modalService: NgbModal) {
+        private modalService: NgbModal,
+        private toastr: ToastrService) {
     }
 
     LAYER_OTM = {
@@ -333,10 +336,13 @@ export class LayersComponent implements OnInit {
 
         this.simulationService.createSimulation(simulationParameters)
             .subscribe(
-                data => {
+                (data) => {
+                    this.toastr.success('Simulacija je uspješno pokrenuta');
                     this.loading = false;
+                    this.error = "";
                 },
-                error => {
+                (error: any) => {
+                    this.toastr.error('Greška prilikom pokretanja simulacije: ', error);
                     this.loading = false;
                 });
     }
