@@ -24,7 +24,6 @@ export class SensorFormComponent {
         return this.battery;
     }
 
-
     getPeriod() {
         return this.period;
     }

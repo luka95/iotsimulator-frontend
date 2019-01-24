@@ -1,10 +1,9 @@
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-delete-confirm-modal',
-    templateUrl: './delete-confirm.component.html',
-    styleUrls: ['./delete-confirm.component.css']
+    templateUrl: './delete-confirm.component.html'
 })
 export class DeleteConfirmComponent implements OnInit {
     @Input()

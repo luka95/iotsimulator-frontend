@@ -1,10 +1,9 @@
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-show-model-modal',
-    templateUrl: './show-model.component.html',
-    styleUrls: ['./show-model.component.css']
+    templateUrl: './show-model.component.html'
 })
 export class ShowModelComponent implements OnInit {
     @Input()
