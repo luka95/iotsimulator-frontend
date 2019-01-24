@@ -28,9 +28,9 @@ export class LayersComponent implements OnInit {
     error: string;
 
     constructor(private sanitizer: DomSanitizer,
-                private simulationService: SimulationService,
-                private modulesDataService: ModulesDataService,
-                private modalService: NgbModal) {
+        private simulationService: SimulationService,
+        private modulesDataService: ModulesDataService,
+        private modalService: NgbModal) {
     }
 
     LAYER_OTM = {
@@ -54,7 +54,7 @@ export class LayersComponent implements OnInit {
     };
 
     // Values to bind to Leaflet Directive
-    layersControlOptions = {position: 'bottomright'};
+    layersControlOptions = { position: 'bottomright' };
     options = {
         zoom: 16,
         center: latLng(45.801128, 15.9706648)
@@ -376,10 +376,6 @@ export class LayersComponent implements OnInit {
                 const polygon = layer.toGeoJSON();
                 polygon.properties = l.props;
                 obstacles.features.push(polygon);
-            } else if (layer instanceof L.Polyline) {
-                const polyline = layer.toGeoJSON();
-                polyline.properties = l.props;
-                obstacles.features.push(polyline);
             }
         });
 
@@ -396,7 +392,7 @@ export class LayersComponent implements OnInit {
     }
 
     showModelPopup(): void {
-        const modalRef = this.modalService.open(ShowModelComponent, {size: 'lg'});
+        const modalRef = this.modalService.open(ShowModelComponent, { size: 'lg' });
         modalRef.componentInstance.data = this.getAllSimulationParameters();
     }
 

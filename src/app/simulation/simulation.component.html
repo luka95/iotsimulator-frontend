@@ -1,9 +1,16 @@
 <div class="container-fluid">
+    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show">
+        <strong>Error!</strong> {{error}}
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
         <div class="col-md-8">
             <div leaflet style="height: 500px;" leafletDraw [leafletDrawOptions]="drawOptions" [leafletOptions]="options"
                 [leafletBaseLayers]="baseLayers" [leafletLayers]="layers" [leafletLayersControlOptions]="layersControlOptions"
-                (leafletDrawCreated)="onDrawCreated($event)" (leafletMapReady)="onMapReady($event)">
+                (leafletDrawCreated)="onDrawCreated($event)" (leafletDrawDeleted)="onDrawDeleted($event)"
+                (leafletMapReady)="onMapReady($event)">
             </div>
             <div class="row">
                 <div>
